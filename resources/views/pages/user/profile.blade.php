@@ -1,7 +1,7 @@
 @extends('pages.user.base')
 
 @section('container')
-    <div class="bg-white w-screen h-screen mt-24 flex flex-col items-center">
+    <div class="bg-white w-screen h-screen mt-20 pt-6 flex flex-col items-center">
         <div class="w-40 h-40 rounded-full bg-stone-300"></div>
         <p class="font-semibold text-4xl mt-3">Identity V</p>
         <div class="flex justify-around w-64 mt-3 text-lg text-stone-400">
