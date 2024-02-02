@@ -12,5 +12,9 @@
         "postcss": "^8.4.33",
         "tailwindcss": "^3.4.1",
         "vite": "^5.0.0"
+    },
+    "dependencies": {
+        "filepond": "^4.30.6",
+        "filepond-plugin-image-preview": "^4.6.12"
     }
 }

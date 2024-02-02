@@ -1,9 +1,17 @@
 @extends('layout.app')
 
+@php
+    $image = $user->file_location;
+    if($image == null) {
+        $image = 'def.png';
+    }
+@endphp
+
 @section('body')
     <div class="w-auto h-auto bg-slate-200">
-        <nav class="w-full h-20 bg-white flex items-center justify-around fixed top-0">
-            <div class="w-12 h-12 rounded-full"><img src="{{ asset('assets/image/kuduga.jpg') }}" alt="kuduga" class="rounded-full"></div>
+        <nav class="w-full h-20 bg-white flex items-center justify-around fixed top-0 z-50">
+            <div class="w-12 h-12 rounded-full"><img src="{{ asset('assets/image/kuduga.jpg') }}" alt="kuduga"
+                    class="rounded-full"></div>
             <button data-url="/" class="button-page">
                 <div class="w-auto h-12 px-6 rounded-3xl hover:bg-stone-200 flex items-center font-semibold">Home</div>
             </button>
@@ -17,7 +25,8 @@
             </button>
             <div class="mr-3 flex items-center">
                 <button class="button-page" data-url="/profile">
-                    <div class="w-9 h-9 rounded-full mr-2"><img src="{{ asset('assets/image/kanata2.jpg') }}" alt="profile" class="rounded-full"></div>
+                    <div class="w-9 h-9 rounded-full mr-2"><img src="{{ url('assets/image/' . $image) }}" alt="profile"
+                            class="rounded-full w-9 h-9 object-cover"></div>
                 </button>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-5 h-5 font-bold cursor-pointer text-slate-500" id="arrowDown">

@@ -6,7 +6,7 @@
             <div class="w-full h-36 border-b pb-5">
                 <p class="font-semibold text-xl ml-6 mt-6">Draft (0)</p>
                 <input type="file" id="fileInput" class="hidden" multiple />
-                <button class="bg-stone-200 p-3 rounded-3xl font-semibold text-center mt-6 ml-6 w-96 hover:bg-stone-300"
+                <button class="bg-stone-200 p-3 rounded-3xl font-semibold text-center mt-6 ml-6 w-[20vw] hover:bg-stone-300"
                     id="newDraft">Add New Draft</button>
             </div>
             <div class="w-11/12 h-full mx-auto mt-1 overflow-auto">
@@ -77,7 +77,7 @@
             <div class="w-full h-24 border-t">
                 <div class="w-full h-full border-black flex items-center ml-3">
                     <input type="checkbox" class="w-7 h-7 rounded-3xl border border-black mx-2">
-                    <p class="text-black text-md ml-2 font-bold">Pilih semua</p>
+                    <p class="text-black text-md ml-2 font-bold">Choose All</p>
                 </div>
             </div>
         </div>

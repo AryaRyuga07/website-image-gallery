@@ -18,6 +18,7 @@ return new class extends Migration
 			$table->string('email')->unique();
 			$table->string('full_name')->nullable();
 			$table->text('address')->nullable();
+            $table->string('file_location')->nullable();
 			$table->timestamps();
 		});
     }

@@ -13,13 +13,9 @@ return new class extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
 			$table->id();
-			$table->string('username');
-			$table->string('password');
-			$table->string('email')->unique();
-			$table->timestamp('email_verified_at')->nullable();
-			$table->string('full_name');
-			$table->text('address');
-			$table->timestamps();
+			$table->foreignId('photo_id')->references('id')->on('photos')->cascadeOnDelete();
+			$table->foreignId('user_id')->references('id')->on('user')->cascadeOnDelete();
+            $table->timestamps();
 		});
     }
 
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('like');
+        Schema::dropIfExists('likes');
     }
 };

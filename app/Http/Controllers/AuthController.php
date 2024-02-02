@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use function auth;
 use function redirect;
@@ -33,6 +34,7 @@ class AuthController extends Controller
 
 		/** @var User $user */
 		$user = User::query()->where('username', '=', $username)->first();
+
 		if ($user === null || !$user->isPasswordValid($password)) {
 			$request->session()->flash('login_error', 'Invalid username or password');
 			return response()->view('pages.auth.login', [], 401);

@@ -12,52 +12,37 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-// Route::prefix('/auth')->group(function () {
-//     Route::get('/login', function () {
-//         return view('pages.auth.login');
-//     });
-//     Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
-
-//     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
-//     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
-// });
-
-Route::prefix('/auth')->group(function() {
-	Route::get('/login', function() {
-		return view('pages.auth.login');
+Route::middleware(['guest'])->group(function() {
+	Route::prefix('/auth')->group(function() {
+		Route::get('/login', function() {
+			return view('pages.auth.login');
+		});
+		Route::get('/register', function() {
+			return view('pages.auth.register');
+		});
+		Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
+		Route::post('/register', [\App\Http\Controllers\AuthController::class, 'register']);
+	
+		Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
+		Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 	});
-	Route::get('/register', function() {
-		return view('pages.auth.register');
-	});
-	Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
-	Route::post('/register', [\App\Http\Controllers\AuthController::class, 'register']);
-
-	Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
-	Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 });
 
-Route::prefix('/')->middleware([\App\Http\Middleware\Authenticate::class])->group(function() {
-	Route::get('/', function () {
-		return view('pages.user.home');
-	});
+Route::prefix('/')->middleware('auth')->group(function() {
+	Route::get('/', [\App\Http\Controllers\PageController::class, 'home']);
+	Route::get('/explore', [\App\Http\Controllers\PageController::class, 'explore']);
+	Route::get('/profile', [\App\Http\Controllers\PageController::class, 'profile']);
 	
-	Route::get('/explore', function () {
-		return view('pages.user.explore');
-	});
+	Route::get('/update-profile', [\App\Http\Controllers\PageController::class, 'updateProfile']);
+	Route::get('/update-account', [\App\Http\Controllers\PageController::class, 'updateAccount']);
+	Route::get('/delete-account', [\App\Http\Controllers\PageController::class, 'deleteAccount']);
+	Route::get('/delete-acc', [\App\Http\Controllers\managementProfileController::class, 'deleteAccount']);
+
+	Route::post('/update-profile', [\App\Http\Controllers\managementProfileController::class, 'updateProfile']);
+	Route::post('/update-account', [\App\Http\Controllers\managementProfileController::class, 'updateAccount']);
+	Route::post('/update-account', [\App\Http\Controllers\managementProfileController::class, 'updateAccount']);
 	
-	Route::get('/profile', function () {
-		return view('pages.user.profile');
-	});
-	
-	Route::get('/update-profile', function () {
-		return view('pages.user.update-profile');
-	});
-	
-	Route::get('/creation', function () {
-		return view('pages.user.creation');
-	});
-	
+	Route::get('/creation', [\App\Http\Controllers\PageController::class, 'creation']);
 	Route::get('test', function(){
 		return view('pages.user.test');
 	});

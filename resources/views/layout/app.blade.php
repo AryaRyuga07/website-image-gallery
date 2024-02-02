@@ -7,12 +7,38 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title ?? 'RyeVision Gallery' }}</title>
     <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-file-encode.min.js') }}"></script>
+    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-file-validate-type.min.js') }}"></script>
+    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-crop.min.js') }}"></script>
+    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-exif-orientation.min.js') }}"></script>
+    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-preview.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-preview.min.css') }}"></script> --}}
+    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-resize.min.js') }}"></script>
+    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-transform.min.js') }}"></script>
+    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-validate-size.min.js') }}"></script>
+    <script src="{{ asset('assets/filepond/filepond.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/filepond/filepond.min.css') }}"></script> --}}
     @yield('head')
     @if (env('VITE_ENABLED', 'true') === 'true')
         @vite('resources/css/app.css')
     @else
         <script src="https://cdn.tailwindcss.com"></script>
     @endif
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1D5D9B',
+                        secondary: '#75C2F6',
+                        third: '#F4D160',
+                        fourth: '#FBEEAC',
+                    }
+                }
+            },
+        }
+    </script>
     <style>
         * {
             margin: 0;
@@ -27,6 +53,7 @@
                 cursor: zoom-in;
                 position: relative;
             }
+
             .no-darken {
                 filter: brightness(100%);
             }

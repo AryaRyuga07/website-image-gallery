@@ -2,8 +2,8 @@
 
 @section('body')
     <div class="w-screen h-screen bg-gray-200 flex justify-center items-center">
-        <div class="w-5/6 h-5/6 bg-primary shadow-lg rounded-3xl relative">
-            <form method="post" action="{{ url('auth/login') }}" class="w-full flex flex-col mt-48 items-center p-8">
+        <div class="w-5/6 h-5/6 bg-primary shadow-lg rounded-3xl relative flex flex-col justify-center">
+            <form method="post" action="{{ url('auth/login') }}" class="w-full flex flex-col items-center p-8">
                 <p class="mb-2 text-4xl font-bold text-center text-white">
                     RyeVision Gallery
                 </p>
