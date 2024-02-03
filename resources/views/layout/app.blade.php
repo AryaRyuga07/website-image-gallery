@@ -23,22 +23,26 @@
     @if (env('VITE_ENABLED', 'true') === 'true')
         @vite('resources/css/app.css')
     @else
-        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="{{ asset('assets/css/tailwind.css') }}"></script>
     @endif
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1D5D9B',
-                        secondary: '#75C2F6',
-                        third: '#F4D160',
-                        fourth: '#FBEEAC',
+    @if (env('VITE_ENABLED', 'true') === 'true')
+        @vite('resources/css/app.css')
+    @else
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: '#1D5D9B',
+                            secondary: '#75C2F6',
+                            third: '#F4D160',
+                            fourth: '#FBEEAC',
+                        }
                     }
-                }
-            },
-        }
-    </script>
+                },
+            }
+        </script>
+    @endif
     <style>
         * {
             margin: 0;

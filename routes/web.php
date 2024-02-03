@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +42,9 @@ Route::prefix('/')->middleware('auth')->group(function() {
 	Route::post('/update-profile', [\App\Http\Controllers\managementProfileController::class, 'updateProfile']);
 	Route::post('/update-account', [\App\Http\Controllers\managementProfileController::class, 'updateAccount']);
 	Route::post('/update-account', [\App\Http\Controllers\managementProfileController::class, 'updateAccount']);
+	
+	Route::post('/draft', [App\Http\Controllers\ImageController::class, 'draftUpload']);
+	Route::post('/post-image', [\App\Http\Controllers\ImageController::class, 'postImage']);
 	
 	Route::get('/creation', [\App\Http\Controllers\PageController::class, 'creation']);
 	Route::get('test', function(){
