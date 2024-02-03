@@ -19,7 +19,6 @@ const setEventHandlers = () => {
     urlPages.forEach((urlPage) => {
         urlPage.addEventListener('click', (event) => {
             let url = urlPage.getAttribute('data-url');
-            console.log(url);
             window.location.assign(url);
         });
     });
@@ -29,7 +28,6 @@ const setEventHandlers = () => {
     buttonPages.forEach((button) => {
         button.addEventListener('click', () => {
             let url = button.getAttribute('data-url');
-            console.log(url);
             window.location.assign(url);
         })
     })

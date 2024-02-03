@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('draft', function (Blueprint $table) {
 			$table->id();
 			$table->string('file_location');
+            $table->foreignId('user_id')->references('id')->on('user')->cascadeOnDelete();
 			$table->timestamps();
 		});
     }

@@ -6,6 +6,7 @@ use App\Models\Draft;
 use App\Models\Photos;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class ImageController extends Controller
 {
@@ -13,13 +14,16 @@ class ImageController extends Controller
     {
         try {
             $images = $request->file('images');
+            // dd($images);
             $uploadedImages = [];
+            $user = User::query()->find($request->user()->getUserId());
 
             foreach ($images as $image) {
                 $imageModel = new Draft();
                 $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('assets/image/draft'), $imageName);
                 $imageModel->file_location = $imageName;
+                $imageModel->user_id = $user->id;
                 $imageModel->save();
 
                 $uploadedImages[] = $imageName;
@@ -43,12 +47,14 @@ class ImageController extends Controller
         $title = $request->post('title');
         $description = $request->post('description');
         $album = $request->post('album');
+        $user = User::query()->find($request->user()->getUserId());
 
         $photo = new Photos();
         $photo->title = $title;
         $photo->description = $description;
         $photo->file_location = $image;
         $photo->album_id = $album;
+        $photo->user_id = $user->id;
         $photo->save();
 
         $request->session()->flash('success', 'Post Photos Success!!!');
@@ -56,6 +62,6 @@ class ImageController extends Controller
         $draft = Draft::query()->where('file_location', '=', $image);
         $draft->delete();
         
-        return redirect('/');
+        return Redirect::back();
     }
 }

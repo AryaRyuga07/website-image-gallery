@@ -8,7 +8,7 @@
 @endphp
 
 @section('body')
-    <div class="w-auto h-auto bg-slate-200">
+    <div class="w-auto h-auto bg-white-200">
         <nav class="w-full h-20 bg-white flex items-center justify-around fixed top-0 z-50">
             <div class="w-12 h-12 rounded-full"><img src="{{ asset('assets/image/kuduga.jpg') }}" alt="kuduga"
                     class="rounded-full"></div>

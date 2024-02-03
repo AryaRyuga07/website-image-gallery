@@ -1,10 +1,10 @@
-@extends('pages.user.base')
+@extends('pages.user.profile')
 
-@section('container')
-    <div>
-        <div class="mt-20 pt-4 columns-4 2xl:columns-7 gap-3 w-[94vw] mx-auto space-y-3 pb-28">
+@section('content')
+    <div class="mt-5">
+        <div class="columns-4 2xl:columns-7 gap-3 w-[94vw] mx-auto space-y-3">
             @foreach ($photos as $item)
-                <div class="darken-brightness break-inside-avoid" id="gambar1">
+                <div class="rounded-3xl darken-brightness break-inside-avoid" id="gambar1">
                     <img class="rounded-3xl" src="{{ url('assets/image/draft/' . $item->file_location) }}" alt="Programming">
                 </div>
             @endforeach

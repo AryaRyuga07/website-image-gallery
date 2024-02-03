@@ -32,7 +32,11 @@ Route::middleware(['guest'])->group(function() {
 Route::prefix('/')->middleware('auth')->group(function() {
 	Route::get('/', [\App\Http\Controllers\PageController::class, 'home']);
 	Route::get('/explore', [\App\Http\Controllers\PageController::class, 'explore']);
+
 	Route::get('/profile', [\App\Http\Controllers\PageController::class, 'profile']);
+	Route::get('/profile/photos', [\App\Http\Controllers\PageController::class, 'profilePhotos']);
+	Route::get('/profile/album', [\App\Http\Controllers\PageController::class, 'profileAlbum']);
+	Route::get('/profile/favorite', [\App\Http\Controllers\PageController::class, 'profileFavorite']);
 	
 	Route::get('/update-profile', [\App\Http\Controllers\PageController::class, 'updateProfile']);
 	Route::get('/update-account', [\App\Http\Controllers\PageController::class, 'updateAccount']);

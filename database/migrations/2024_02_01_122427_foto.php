@@ -17,6 +17,7 @@ return new class extends Migration
 			$table->string('description');
 			$table->string('file_location');
             $table->foreignId('album_id')->references('id')->on('album');
+            $table->foreignId('user_id')->references('id')->on('user')->cascadeOnDelete();
 			$table->timestamps();
 		});
     }

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('album', function (Blueprint $table) {
 			$table->id();
 			$table->string('album_name');
+			$table->foreignId('user_id')->references('id')->on('user')->cascadeOnDelete();
 			$table->text('description');
 			$table->timestamps();
 		});

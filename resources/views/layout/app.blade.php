@@ -53,7 +53,7 @@
         @layer utilities {
             .darken-brightness:hover {
                 /* filter: brightness(60%); */
-                border-radius: 24px;
+                /* border-radius: 24px; */
                 cursor: zoom-in;
                 position: relative;
             }

@@ -74,7 +74,7 @@
                         <select name="album" id="album"
                             class="w-full h-full bg-none border-2 border-gray-300 rounded-3xl p-4 mt-2">
                             @foreach ($album as $item)
-                            <option value="{{ $item->id }}">{{ $item->album_name }}</option>
+                                <option value="{{ $item->id }}">{{ $item->album_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -93,12 +93,39 @@
         let img = document.getElementById('imgPrev');
         const inputImage = document.getElementById('inputImage');
 
+        // Send Image to Database
+        fileInput.addEventListener('change', function() {
+            var selectedFiles = this.files;
+            var firstFile = this.files[0];
+            if (selectedFiles) {
+                var formData = new FormData();
+                for (var i = 0; i < selectedFiles.length; i++) {
+                    formData.append('images[]', selectedFiles[i]);
+                }
+
+                fetch('/draft', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        window.location.reload();
+                        previewImage(event);
+                    })
+                    .catch(error => console.error('Error: ', error));
+            }
+        });
+
         newDraft.addEventListener('click', () => {
-            /*var img = document.getElementById('imgPrev');
-            var div = document.getElementById('newImg');
-            img.src = "";
-            img.classList.add('hidden');
-            div.classList.remove('hidden');*/
+            // var img = document.getElementById('imgPrev');
+            // var div = document.getElementById('newImg');
+            // img.src = "";
+            // img.classList.add('hidden');
+            // div.classList.remove('hidden');
+            triggerFileInput();
         });
 
         draftImage.forEach((draft) => {
@@ -130,33 +157,6 @@
 
         newImage.addEventListener('click', () => {
             triggerFileInput();
-        });
-
-
-        // Send Image to Database
-        fileInput.addEventListener('change', function() {
-            var selectedFiles = this.files;
-            var firstFile = this.files[0];
-            if (selectedFiles) {
-                var formData = new FormData();
-                for (var i = 0; i < selectedFiles.length; i++) {
-                    formData.append('images[]', selectedFiles[i]);
-                }
-
-                fetch('/draft', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        window.location.reload();
-                        previewImage(event);
-                    })
-                    .catch(error => console.error('Error: ', error));
-            }
         });
     </script>
 @endsection
