@@ -37,6 +37,8 @@ Route::prefix('/')->middleware('auth')->group(function() {
 	Route::get('/explore-image/{subtitle}', [\App\Http\Controllers\ExploreImageController::class, 'exploreImage']);
 	Route::post('/comment', [\App\Http\Controllers\ActionController::class, 'comment']);
 	Route::post('/like', [\App\Http\Controllers\ActionController::class, 'like']);
+	Route::get('/download/{id}', [\App\Http\Controllers\ImageController::class, 'download']);
+	Route::get('/delete/{id}', [\App\Http\Controllers\ImageController::class, 'delete']);
 	
 	Route::get('/profile', [\App\Http\Controllers\PageController::class, 'profile']);
 	Route::get('/profile/photos', [\App\Http\Controllers\PageController::class, 'profilePhotos']);
@@ -51,6 +53,8 @@ Route::prefix('/')->middleware('auth')->group(function() {
 	Route::post('/update-profile', [\App\Http\Controllers\managementProfileController::class, 'updateProfile']);
 	Route::post('/update-account', [\App\Http\Controllers\managementProfileController::class, 'updateAccount']);
 	Route::post('/update-account', [\App\Http\Controllers\managementProfileController::class, 'updateAccount']);
+	Route::get('/add-album', [App\Http\Controllers\PageController::class, 'addAlbum']); 
+	Route::post('/add-album', [App\Http\Controllers\ImageController::class, 'addAlbum']); 
 	
 	Route::post('/draft', [App\Http\Controllers\ImageController::class, 'draftUpload']);
 	Route::post('/delete-draft', [App\Http\Controllers\ImageController::class, 'deleteDraft']);

@@ -15,9 +15,9 @@
         <p class="font-semibold text-4xl mt-3">{{ $name }}</p>
         <p class="text-sm font-semibold text-gray-600 mt-2"><label>@</label>{{ $user->username }}</p>
         <div class="flex justify-around w-64 mt-3 text-lg text-stone-400">
-            <p>0 foto</p>
-            <p>0 suka</p>
-            <p>0 mengikuti</p>
+            <p>{{ $photos->count() }} Photos</p>
+            <p>{{ $like->count() }} Like</p>
+            <p>0 Follower</p>
         </div>
         <div class="flex justify-evenly w-64 mt-3">
             <form action="/auth/logout" method="get">

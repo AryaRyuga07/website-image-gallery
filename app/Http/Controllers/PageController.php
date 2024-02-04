@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Album;
 use App\Models\Draft;
+use App\Models\Like;
 use App\Models\Photos;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,8 +14,12 @@ class PageController extends Controller
   function profile(Request $request)
   {
     $user = User::query()->find($request->user()->getUserId());
+    $like = Like::query()->where('user_id', '=', $user->id)->get();
+    $photos = Photos::query()->where('user_id', '=', $user->id)->get();
     return view('pages.user.profile', [
-      'user' => $user
+      'user' => $user,
+      'like' => $like,
+      'photos' => $photos,
     ]);
   }
 
@@ -22,9 +27,11 @@ class PageController extends Controller
   {
     $user = User::query()->find($request->user()->getUserId());
     $photos = Photos::query()->where('user_id', '=', $user->id)->get();
+    $like = Like::query()->where('user_id', '=', $user->id)->get();
     return view('pages.user.profile-photos', [
       'user' => $user,
       'photos' => $photos,
+      'like' => $like,
     ]);
   }
 
@@ -32,9 +39,11 @@ class PageController extends Controller
   {
     $user = User::query()->find($request->user()->getUserId());
     $photos = Photos::query()->where('user_id', '=', $user->id)->get();
+    $like = Like::query()->where('user_id', '=', $user->id)->get();
     return view('pages.user.profile-favorite', [
       'user' => $user,
       'photos' => $photos,
+      'like' => $like,
     ]);
   }
 
@@ -42,9 +51,23 @@ class PageController extends Controller
   {
     $user = User::query()->find($request->user()->getUserId());
     $album = Album::query()->where('user_id', '=', $user->id)->get();
+    $like = Like::query()->where('user_id', '=', $user->id)->get();
+    $photos = Photos::query()->where('user_id', '=', $user->id)->get();
+    $latestData = Photos::latest()->limit(7)->where('user_id', '=', $user->id)->get();
     return view('pages.user.profile-album', [
       'user' => $user,
       'album' => $album,
+      'latest' => $latestData,
+      'like' => $like,
+      'photos' => $photos,
+    ]);
+  }
+
+  function addAlbum(Request $request)
+  {
+    $user = User::query()->find($request->user()->getUserId());
+    return view('pages.user.add-album', [
+      'user' => $user
     ]);
   }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Album;
 use App\Models\Draft;
 use App\Models\Photos;
 use App\Models\User;
@@ -75,5 +76,32 @@ class ImageController extends Controller
             Draft::where('id', $arr[$i])->delete();
         }
         return redirect()->back()->with('success', 'Data terpilih berhasil dihapus');
+    }
+
+    public function download($id)
+    {
+        $photos = Photos::where('id', '=', $id)->get()[0];
+        $path = public_path('/assets/image/draft/' . $photos->file_location);
+        return response()->download($path);
+    }
+
+    public function delete($id)
+    {
+        $photos = Photos::where('id', '=', $id)->get()[0];
+        $photos->delete();
+        return redirect()->back();
+    }
+
+    public function addAlbum(Request $request)
+    {
+        $name = $request->post('album');
+        $desc = $request->post('description');
+        $user = User::query()->find($request->user()->getUserId());
+        $album = new Album();
+        $album->album_name = $name;
+        $album->user_id = $user->id;
+        $album->description = $desc;
+        $album->save();
+        return redirect('/profile/album');
     }
 }
