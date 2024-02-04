@@ -67,7 +67,7 @@ class PageController extends Controller
   function creation(Request $request)
   {
     $user = User::query()->find($request->user()->getUserId());
-    $draft = Draft::all();
+    $draft = Draft::query()->where('user_id', '=', $user->id)->get();
     $album = Album::all();
     return view('pages.user.creation', [
       'user' => $user,

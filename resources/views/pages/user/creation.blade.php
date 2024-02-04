@@ -23,8 +23,9 @@
                         <div class="w-full h-28 rounded-3xl flex items-center hover:bg-gray-300 cursor-pointer draft-image"
                             id="{{ $item->id }}">
                             <div class="w-40 h-full border-black flex items-center">
-                                <input type="checkbox" class="w-5 h-5 rounded-3xl bg-none border border-black mx-2">
-                                <div class="w-20 h-20 bg-stone-400 rounded-xl"><img
+                                <input type="checkbox" data-id="{{ $item->id }}"
+                                    class="checkbox w-5 h-5 rounded-3xl bg-none border border-black mx-2">
+                                <div class="w-20 h-20 rounded-xl"><img
                                         src="{{ url('assets/image/draft/' . $item->file_location) }}" alt="image"
                                         class="w-full h-full rounded-xl object-cover"></div>
                             </div>
@@ -34,9 +35,16 @@
                 @endif
             </div>
             <div class="w-full h-24 border-t">
-                <div class="w-full h-full border-black flex items-center ml-3">
-                    <input type="checkbox" class="w-7 h-7 rounded-3xl border border-black mx-2">
-                    <p class="text-black text-md ml-2 font-bold">Choose All</p>
+                <div class="w-auto h-full border-black flex justify-between items-center ml-3">
+                    <div class="flex items-center">
+                        <input type="checkbox" class="w-7 h-7 rounded-3xl border border-black mx-2" id="selectAllCb">
+                        <p class="text-black text-md ml-2 font-bold">Choose All</p>
+                    </div>
+                    <form method="post" action="/delete-draft">
+                        @csrf
+                        <button type="submit" class="bg-red-500 p-2 rounded-xl hover:bg-red-300 text-white mr-4"
+                            onclick="confirm('Are you sure?')">Delete</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -45,6 +53,12 @@
             @csrf
             <div class="w-[75vw] bg-white h-20 border-b flex justify-between items-center fixed z-50">
                 <p class="font-semibold text-xl ml-6">Pin</p>
+                @if (Session::has('login_error'))
+                    <div
+                        class="absolute left-20 w-32 h-10 bg-green-300 border border-green-500 rounded-lg flex items-center justify-center">
+                        {{ Session::get('login_error') }}
+                    </div>
+                @endif
                 <div class="mr-6 flex items-center">
                     <p class="mr-6 font-semibold text-lg text-stone-400">Publish Image Now</p>
                     <button type="submit"
@@ -113,7 +127,10 @@
                     .then(response => response.json())
                     .then(data => {
                         window.location.reload();
-                        previewImage(event);
+                        setTimeout(() => {
+                            img.src = "/assets/image/draft/" + data.image;
+                        }, 3000);
+                        // previewImage(event);
                     })
                     .catch(error => console.error('Error: ', error));
             }
@@ -144,19 +161,68 @@
             fileInput.click();
         }
 
-        function previewImage(event) {
-            var input = event.target;
-            var reader = new FileReader();
+        // function previewImage(event) {
+        //     var input = event.target;
+        //     var reader = new FileReader();
 
-            reader.onload = function() {
-                var img = document.getElementById('imgPrev');
-                img.src = reader.result;
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
+        //     reader.onload = function() {
+        //         var img = document.getElementById('imgPrev');
+        //         img.src = reader.result;
+        //     };
+        //     reader.readAsDataURL(input.files[0]);
+        // }
 
         newImage.addEventListener('click', () => {
             triggerFileInput();
+        });
+
+
+
+
+        // Delete with Checkbox
+        document.addEventListener('DOMContentLoaded', function() {
+            let checkboxes = document.querySelectorAll('.checkbox');
+            let selectAllCheckbox = document.getElementById('selectAllCb')
+
+            selectAllCheckbox.addEventListener('change', function() {
+                checkboxes.forEach(function(checkbox) {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+                updateHiddenInput();
+            });
+
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    updateHiddenInput();
+                });
+            });
+
+            function updateHiddenInput() {
+                // Tambah atau hapus id ke dalam array terpilih
+                let selectedIds = [];
+
+                checkboxes.forEach(function(cb) {
+                    if (cb.checked) {
+                        selectedIds.push(cb.getAttribute('data-id'));
+                    }
+                });
+
+                // Simpan array terpilih ke dalam input tersembunyi
+                let hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'selected_ids';
+                hiddenInput.value = selectedIds.join(',');
+
+                // Hapus input lama jika ada
+                let oldInput = document.querySelector('input[name="selected_ids"]');
+                if (oldInput) {
+                    oldInput.remove();
+                }
+
+                // Tambahkan input tersembunyi ke dalam formulir
+                document.querySelector('form').appendChild(hiddenInput);
+                console.log(selectedIds)
+            }
         });
     </script>
 @endsection

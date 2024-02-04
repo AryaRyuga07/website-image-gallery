@@ -45,12 +45,13 @@ class ImageController extends Controller
 
         $image = $request->post('image');
         $title = $request->post('title');
+        $titleReplace = ucwords(preg_replace('/[^a-zA-Z0-9]/', ' ', $title));
         $description = $request->post('description');
         $album = $request->post('album');
         $user = User::query()->find($request->user()->getUserId());
 
         $photo = new Photos();
-        $photo->title = $title;
+        $photo->title = $titleReplace;
         $photo->description = $description;
         $photo->file_location = $image;
         $photo->album_id = $album;
@@ -59,9 +60,20 @@ class ImageController extends Controller
 
         $request->session()->flash('success', 'Post Photos Success!!!');
 
-        $draft = Draft::query()->where('file_location', '=', $image);
+        $draft = Draft::query()->where('file_location', '=', $image)->where('user_id', '=', $user->id);
         $draft->delete();
-        
+
         return Redirect::back();
+    }
+
+    public function deleteDraft(Request $request)
+    {
+        $selectedItems = $request->input('selected_ids');
+        $arr = explode(",", $selectedItems);
+
+        for ($i = 0; $i < count($arr); $i++) {
+            Draft::where('id', $arr[$i])->delete();
+        }
+        return redirect()->back()->with('success', 'Data terpilih berhasil dihapus');
     }
 }

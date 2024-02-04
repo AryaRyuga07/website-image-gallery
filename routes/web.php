@@ -31,8 +31,13 @@ Route::middleware(['guest'])->group(function() {
 
 Route::prefix('/')->middleware('auth')->group(function() {
 	Route::get('/', [\App\Http\Controllers\PageController::class, 'home']);
-	Route::get('/explore', [\App\Http\Controllers\PageController::class, 'explore']);
 
+	Route::get('/explore', [\App\Http\Controllers\PageController::class, 'explore']);
+	Route::post('/explore-image', [\App\Http\Controllers\ExploreImageController::class, 'exploreDetail']);
+	Route::get('/explore-image/{subtitle}', [\App\Http\Controllers\ExploreImageController::class, 'exploreImage']);
+	Route::post('/comment', [\App\Http\Controllers\ActionController::class, 'comment']);
+	Route::post('/like', [\App\Http\Controllers\ActionController::class, 'like']);
+	
 	Route::get('/profile', [\App\Http\Controllers\PageController::class, 'profile']);
 	Route::get('/profile/photos', [\App\Http\Controllers\PageController::class, 'profilePhotos']);
 	Route::get('/profile/album', [\App\Http\Controllers\PageController::class, 'profileAlbum']);
@@ -48,6 +53,7 @@ Route::prefix('/')->middleware('auth')->group(function() {
 	Route::post('/update-account', [\App\Http\Controllers\managementProfileController::class, 'updateAccount']);
 	
 	Route::post('/draft', [App\Http\Controllers\ImageController::class, 'draftUpload']);
+	Route::post('/delete-draft', [App\Http\Controllers\ImageController::class, 'deleteDraft']);
 	Route::post('/post-image', [\App\Http\Controllers\ImageController::class, 'postImage']);
 	
 	Route::get('/creation', [\App\Http\Controllers\PageController::class, 'creation']);

@@ -4,8 +4,9 @@
     <div>
         <div class="mt-20 pt-4 columns-4 2xl:columns-7 gap-3 w-[94vw] mx-auto space-y-3 pb-28">
             @foreach ($photos as $item)
-                <div class="darken-brightness break-inside-avoid" id="gambar1">
-                    <img class="rounded-3xl" src="{{ url('assets/image/draft/' . $item->file_location) }}" alt="Programming">
+                <div class="darken-brightness break-inside-avoid">
+                    <img class="rounded-3xl" src="{{ url('assets/image/draft/' . $item->file_location) }}"
+                        id="{{ $item->id }}" alt="Programming">
                 </div>
             @endforeach
         </div>
@@ -24,7 +25,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-8 h-8 p-2 bg-white rounded-full">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
             </svg>
         </div>
         <div class="hidden absolute w-7 h-7 top-4 right-6  rounded-full z-50 hover:cursor-pointer no-darken"
@@ -61,6 +62,81 @@
                 // img.removeChild(darken);
                 // img.removeChild(bookmark);
             });
+            img.addEventListener('click', function() {
+                let id = this.querySelector('img').id;
+                console.log(id)
+                // window.location.href = '/explore-image';
+            });
         });
+        bookmark.addEventListener('click', function(e) {
+            e.stopPropagation();
+            console.log(e.currentTarget.parentNode.querySelector('img').id)
+        });
+        dot.addEventListener('click', function(e) {
+            e.stopPropagation();
+            console.log(e.currentTarget.parentNode.querySelector('img').id)
+        });
+        darken.addEventListener('click', function(e) {
+            e.stopPropagation();
+            let id = e.currentTarget.parentNode.querySelector('img').id;
+            urlAccess(id);
+        });
+
+        const urlAccess = (param) => {
+            const requestOptions = {
+                method: 'POST',
+                body: JSON.stringify(param),
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+            };
+
+            // URL endpoint untuk POST request
+            const postEndpoint = '/explore-image';
+
+            // Lakukan request POST
+            fetch(postEndpoint, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.url);
+                    window.location.href = "/explore-image/" + data.url;
+                })
+                .catch(error => {
+                    // Tangani kesalahan jika terjadi
+                    console.error('Error:', error);
+                });
+        }
+
+        // const urlPages = (url) => {
+        //     let dataToSend = {
+        //         key1: 'value1',
+        //         key2: 'value2'
+        //     };
+
+            // Pindah ke halaman baru dengan mengirim data melalui metode POST
+        //     fetch('/explore-image' + url, {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //             },
+        //             body: JSON.stringify(dataToSend),
+        //         })
+        //         .then(response => {
+        //             // Handle response jika diperlukan
+        //             if (response.ok) {
+        //                 return response.json();
+        //             } else {
+        //                 throw new Error('Network response was not ok');
+        //             }
+        //         })
+        //         .then(data => {
+        //             // Lakukan sesuatu dengan data yang diterima
+        //             // ...
+        //         })
+        //         .catch(error => {
+        //             // Handle error jika diperlukan
+        //             console.error('Error:', error);
+        //         });
+        // }
     </script>
 @endsection
