@@ -127,9 +127,6 @@
                     .then(response => response.json())
                     .then(data => {
                         window.location.reload();
-                        setTimeout(() => {
-                            img.src = "/assets/image/draft/" + data.image;
-                        }, 3000);
                         // previewImage(event);
                     })
                     .catch(error => console.error('Error: ', error));
@@ -160,17 +157,6 @@
         const triggerFileInput = () => {
             fileInput.click();
         }
-
-        // function previewImage(event) {
-        //     var input = event.target;
-        //     var reader = new FileReader();
-
-        //     reader.onload = function() {
-        //         var img = document.getElementById('imgPrev');
-        //         img.src = reader.result;
-        //     };
-        //     reader.readAsDataURL(input.files[0]);
-        // }
 
         newImage.addEventListener('click', () => {
             triggerFileInput();
