@@ -4,7 +4,7 @@
     <div class="bg-slate-400 w-screen h-[92.5vh] mt-20 flex">
         <div class="bg-white w-1/4 h-full border border-slate-300 flex flex-col justify-between">
             <div class="w-full h-36 border-b pb-5">
-                <p class="font-semibold text-xl ml-6 mt-6">Draft (0)</p>
+                <p class="font-semibold text-xl ml-6 mt-6">Draft ({{ $draft->count() }})</p>
                 <input type="file" name="files[]" id="fileInput" class="hidden" multiple />
                 <button class=" bg-stone-200 p-3 rounded-3xl font-semibold text-center mt-6 ml-6 w-[20vw] hover:bg-stone-300"
                     id="newDraft">Add New Draft</button>
@@ -65,9 +65,9 @@
                         class="bg-red-500 text-white p-3 rounded-3xl font-semibold text-center w-32 mr-6 hover:bg-red-600">Publish</button>
                 </div>
             </div>
-            <div class="w-full h-screen bg-gray-200 pt-28 flex">
-                <div class="w-96 h-[30rem] bg-black rounded-3xl ml-28 relative">
-                    <img src="" id="imgPrev" alt="image" class="hidden w-full h-full rounded-3xl">
+            <div class="w-full h-auto bg-gray-200 pt-32 flex">
+                <div class="max-w-96 w-auto h-full max-h-[30rem] bg-black rounded-3xl ml-28 relative">
+                    <img src="" id="imgPrev" alt="image" class="hidden w-auto h-auto rounded-3xl object-cover">
                     <input type="hidden" name="image" id="inputImage">
                     <div class="hidden w-full h-full bg-red-600 rounded-3xl object-cover" id="newImg"></div>
                 </div>

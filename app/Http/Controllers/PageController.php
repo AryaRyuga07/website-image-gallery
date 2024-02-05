@@ -8,6 +8,7 @@ use App\Models\Like;
 use App\Models\Photos;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
 {
@@ -82,16 +83,24 @@ class PageController extends Controller
   {
     $user = User::query()->find($request->user()->getUserId());
     $photos = Photos::all();
+    $like = Like::all();
+    $result = Photos::select('photos.id', 'photos.title','photos.file_location', DB::raw('COALESCE(likes_count, 0) as likeTotal'), DB::raw('COALESCE(comment_count, 0) as commentTotal'))
+      ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as likes_count FROM likes GROUP BY photo_id) as likes'), 'likes.photo_id', '=', 'photos.id')
+      ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as comment_count FROM comments GROUP BY photo_id) as comments'), 'comments.photo_id', '=', 'photos.id')
+      ->orderByDesc('photos.id')
+      ->get();
     return view('pages.user.explore', [
       'user' => $user,
       'photos' => $photos,
+      'like' => $like,
+      'result' => $result,
     ]);
   }
   function creation(Request $request)
   {
     $user = User::query()->find($request->user()->getUserId());
     $draft = Draft::query()->where('user_id', '=', $user->id)->get();
-    $album = Album::all();
+    $album = Album::query()->where('user_id', '=', $user->id)->get();
     return view('pages.user.creation', [
       'user' => $user,
       'draft' => $draft,
