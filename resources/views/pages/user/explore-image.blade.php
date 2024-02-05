@@ -28,7 +28,8 @@
                             <img src="{{ url('assets/image/' . $photoDetail->user_photo) }}" class="rounded-full">
                         </div>
                         <div class="ml-4">
-                            <p class="text-xl font-bold flex items-center">{{ strtr($photoDetail->full_name, ['-' => ' ']) }}
+                            <p class="text-xl font-bold flex items-center">
+                                {{ strtr($photoDetail->full_name, ['-' => ' ']) }}
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                     class="w-5 h-5 text-blue-500 ml-2 mt-1">
                                     <path fill-rule="evenodd"
@@ -210,13 +211,6 @@
             sendCommentFill.classList.add('hidden')
         });
 
-        like.addEventListener('click', function() {
-            let id = this.querySelector('p').innerHTML
-            urlLike(id);
-            // likeFirst.classList.toggle('hidden');
-            // likeFill.classList.toggle('hidden');
-        });
-
         const urlLike = (data) => {
             const requestOptions = {
                 method: 'POST',
@@ -233,11 +227,32 @@
             fetch(postEndpoint, requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    window.location.reload();
+                    console.log('Success!', data);
+                    // loadLike();
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
         }
+
+        const loadLike = () => {
+            const url = window.location.href.split('/')[4];
+            fetch('/explore-image/' + url)
+            .then(response => console.log(response))
+            .then(data => {
+                console.log()
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            like.addEventListener('click', function() {
+                let id = this.querySelector('p').innerHTML
+                urlLike(id);
+            });
+            loadLike();
+        });
     </script>
 @endsection
