@@ -41,7 +41,8 @@ class User extends Model
 		'email'
 	];
 
-	public function isPasswordValid(string $password) : bool{
+	public function isPasswordValid(string $password): bool
+	{
 		return Hash::check($password, $this->password);
 	}
 
@@ -65,7 +66,29 @@ class User extends Model
 		return [];
 	}
 
-	public function setPassword(string $password) : string{
+	public function setPassword(string $password): string
+	{
 		return $this->password = Hash::make($password);
+	}
+
+	public function photos()
+	{
+		return $this->hasMany(Photos::class)->cascadeOnDelete();
+	}
+	public function comment()
+	{
+		return $this->hasMany(Comment::class)->cascadeOnDelete();
+	}
+	public function like()
+	{
+		return $this->hasMany(Like::class)->cascadeOnDelete();
+	}
+	public function draft()
+	{
+		return $this->hasMany(Draft::class)->cascadeOnDelete();
+	}
+	public function album()
+	{
+		return $this->hasMany(Album::class)->cascadeOnDelete();
 	}
 }

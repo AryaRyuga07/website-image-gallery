@@ -39,6 +39,7 @@ Route::prefix('/')->middleware('auth')->group(function() {
 	Route::post('/like', [\App\Http\Controllers\ActionController::class, 'like']);
 	Route::get('/download/{id}', [\App\Http\Controllers\ImageController::class, 'download']);
 	Route::get('/delete/{id}', [\App\Http\Controllers\ImageController::class, 'delete']);
+	Route::get('/delete-album/{id}', [\App\Http\Controllers\ImageController::class, 'deleteAlbum']);
 	
 	Route::get('/profile', [\App\Http\Controllers\PageController::class, 'profile']);
 	Route::get('/profile/photos', [\App\Http\Controllers\PageController::class, 'profilePhotos']);

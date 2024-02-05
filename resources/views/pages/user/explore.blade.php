@@ -3,11 +3,15 @@
 @section('container')
     <div>
         <div class="mt-20 pt-4 columns-4 2xl:columns-7 gap-3 w-[94vw] mx-auto space-y-3 pb-28">
-            @foreach ($result as $item)
+            @php
+                $arrayRandom = $result->toArray();
+                shuffle($arrayRandom);
+            @endphp
+            @foreach ($arrayRandom as $item)
                 <div class="break-inside-avoid">
                     <div class="darken-brightness break-inside-avoid">
-                        <img class="rounded-3xl" src="{{ url('assets/image/draft/' . $item->file_location) }}"
-                            id="{{ $item->id }}" alt="Programming">
+                        <img class="rounded-3xl" src="{{ url('assets/image/draft/' . $item['file_location']) }}"
+                            id="{{ $item['id'] }}" alt="Programming">
                     </div>
                     <div class="w-auto h-6 p-2 bg-white pb-2 mb-5 rounded-2xl mt-3 flex justify-center text-gray-500">
                         <div class="flex items-center h-2 pb-4">
@@ -16,7 +20,7 @@
                                 <path
                                     d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
                             </svg>
-                            <p class="ml-2">{{ $item->likeTotal }} like</p>
+                            <p class="ml-2">{{ $item['likeTotal'] }} like</p>
                         </div>
                         <div class="flex items-center h-2 pb-4 ml-5">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 rounded-2xl">
@@ -25,7 +29,7 @@
                                     clip-rule="evenodd" />
                             </svg>
 
-                            <p class="ml-2">{{ $item->commentTotal }} comment</p>
+                            <p class="ml-2">{{ $item['commentTotal'] }} comment</p>
                         </div>
                     </div>
                 </div>

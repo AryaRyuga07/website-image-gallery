@@ -85,7 +85,7 @@ class ImageController extends Controller
         return response()->download($path);
     }
 
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
         $photos = Photos::where('id', '=', $id)->get()[0];
         $photos->delete();
@@ -103,5 +103,13 @@ class ImageController extends Controller
         $album->description = $desc;
         $album->save();
         return redirect('/profile/album');
+    }
+
+    public function deleteAlbum(Request $request, $id)
+    {
+        $user = User::query()->find($request->user()->getUserId());
+        $album = Album::where('id', '=', $id)->where('user_id','=',$user->id)->get()[0];
+        $album->delete();
+        return redirect()->back();
     }
 }
