@@ -10,7 +10,7 @@
             @foreach ($arrayRandom as $item)
                 <div class="break-inside-avoid">
                     <div class="darken-brightness break-inside-avoid">
-                        <img class="rounded-3xl" src="{{ url('assets/image/draft/' . $item['file_location']) }}"
+                        <img class="rounded-3xl" src="{{ asset('storage/post/' . $item['file_location']) }}"
                             id="{{ $item['id'] }}" alt="Programming">
                     </div>
                     <div class="w-auto h-6 p-2 bg-white pb-2 mb-5 rounded-2xl mt-3 flex justify-center text-gray-500">

@@ -13,7 +13,7 @@
     <div class="w-screen h-auto flex flex-col items-center p-28">
         <div class="bg-white w-[60vw] h-auto pb-3 rounded-3xl shadow-2xl flex">
             <div class="bg-white w-1/2 h-full rounded-s-3xl overflow-hidden">
-                <img src="{{ url('assets/image/draft/' . $photoDetail->file_location) }}" alt="image"
+                <img src="{{ asset('storage/post/' . $photoDetail->file_location) }}" alt="image"
                     class="w-auto h-auto rounded-s-3xl object-cover">
             </div>
             <div class="w-1/2 h-full rounded-e-3xl">
@@ -25,7 +25,7 @@
                     </div>
                     <div class="h-1/3 flex items-center">
                         <div class="w-14 h-14 rounded-full bg-black ml-7">
-                            <img src="{{ url('assets/image/' . $photoDetail->user_photo) }}" class="rounded-full">
+                            <img src="{{ asset('storage/image/' . $photoDetail->user_photo) }}" class="rounded-full">
                         </div>
                         <div class="ml-4">
                             <p class="text-xl font-bold flex items-center">
@@ -54,7 +54,7 @@
                             <div class="w-[94%] h-auto bg-gray-300 rounded-3xl mb-5 p-3">
                                 <div class="w-full h-auto flex">
                                     <div class="w-14 h-14 bg-black rounded-full mx-3">
-                                        <img src="{{ url('assets/image/' . $item->user_photo) }}"
+                                        <img src="{{ asset('storage/image/' . $item->user_photo) }}"
                                             class="object-cover w-14 h-14 rounded-full">
                                     </div>
                                     <div class="w-3/4">
@@ -91,7 +91,7 @@
                     </div>
                     <div class="flex justify-between p-3 items-center">
                         <div class="w-10 h-10 bg-black rounded-full mr-3">
-                            <img src="{{ url('assets/image/' . $user->file_location) }}"
+                            <img src="{{ asset('storage/image/' . $user->file_location) }}"
                                 class="w-10 h-10 object-cover rounded-full">
                         </div>
                         <form action="/comment" method="post" class="flex w-full relative">
@@ -126,10 +126,37 @@
             <p class="text-2xl font-bold">Another Images</p>
             <div>
                 <div class="mt-10 pt-4 columns-4 2xl:columns-7 gap-3 w-[94vw] mx-auto space-y-3 pb-28">
-                    @foreach ($photos as $item)
-                        <div class="darken-brightness break-inside-avoid" id="gambar1">
-                            <img class="rounded-3xl" src="{{ url('assets/image/draft/' . $item->file_location) }}"
-                                alt="Programming">
+                    @php
+                        $arrayRandom = $result->toArray();
+                        shuffle($arrayRandom);
+                    @endphp
+                    @foreach ($arrayRandom as $item)
+                        <div class="break-inside-avoid">
+                            <div class="darken-brightness break-inside-avoid">
+                                <img class="rounded-3xl" src="{{ asset('storage/post/' . $item['file_location']) }}"
+                                    id="{{ $item['id'] }}" alt="Programming">
+                            </div>
+                            <div
+                                class="w-auto h-6 p-2 bg-white pb-2 mb-5 rounded-2xl mt-3 flex justify-center text-gray-500">
+                                <div class="flex items-center h-2 pb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="w-4 h-4 rounded-2xl">
+                                        <path
+                                            d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+                                    </svg>
+                                    <p class="ml-2">{{ $item['likeTotal'] }} like</p>
+                                </div>
+                                <div class="flex items-center h-2 pb-4 ml-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="w-4 h-4 rounded-2xl">
+                                        <path fill-rule="evenodd"
+                                            d="M4.804 21.644A6.707 6.707 0 0 0 6 21.75a6.721 6.721 0 0 0 3.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232.226.277.428.254.543a3.73 3.73 0 0 1-.814 1.686.75.75 0 0 0 .44 1.223ZM8.25 10.875a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25ZM10.875 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875-1.125a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25Z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+
+                                    <p class="ml-2">{{ $item['commentTotal'] }} comment</p>
+                                </div>
+                            </div>
                         </div>
                     @endforeach
                 </div>
@@ -149,7 +176,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-8 h-8 p-2 bg-white rounded-full">
                         <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                     </svg>
                 </div>
                 <div class="hidden absolute w-7 h-7 top-4 right-6  rounded-full z-50 hover:cursor-pointer no-darken"
@@ -195,8 +222,15 @@
                 // img.removeChild(darken);
                 // img.removeChild(bookmark);
             });
-            darken.addEventListener('click', (event) => {
-                window.location.href = '/explore-image';
+            dot.addEventListener('click', function(e) {
+                e.stopPropagation();
+                let id = e.currentTarget.parentNode.querySelector('img').id;
+                window.location.href = "/download/" + id;
+            });
+            darken.addEventListener('click', function(e) {
+                e.stopPropagation();
+                let id = e.currentTarget.parentNode.querySelector('img').id;
+                urlAccess(id);
             });
         });
 
@@ -227,7 +261,8 @@
             fetch(postEndpoint, requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Success!', data);
+                    console.log('Success!', data.message);
+                    window.location.reload();
                     // loadLike();
                 })
                 .catch(error => {
@@ -235,24 +270,63 @@
                 });
         }
 
+        const urlAccess = (param) => {
+            const requestOptions = {
+                method: 'POST',
+                body: JSON.stringify(param),
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+            };
+
+            // URL endpoint untuk POST request
+            const postEndpoint = '/explore-image';
+
+            // Lakukan request POST
+            fetch(postEndpoint, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.url);
+                    window.location.href = "/explore-image/" + data.url;
+                })
+                .catch(error => {
+                    // Tangani kesalahan jika terjadi
+                    console.error('Error:', error);
+                });
+        }
+
         const loadLike = () => {
             const url = window.location.href.split('/')[4];
             fetch('/explore-image/' + url)
-            .then(response => console.log(response))
-            .then(data => {
-                console.log()
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+
+                    console.log(data);
+                    // const likeCountElement = document.getElementById('likeCount');
+                    // likeCountElement.innerText = data.likes;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                })
         }
+
+        dot.addEventListener('click', function(e) {
+            e.stopPropagation();
+            let id = e.currentTarget.parentNode.querySelector('img').id;
+            window.location.href = "/download/" + id;
+        });
 
         document.addEventListener('DOMContentLoaded', function() {
             like.addEventListener('click', function() {
                 let id = this.querySelector('p').innerHTML
                 urlLike(id);
             });
-            loadLike();
+            // loadLike();
         });
     </script>
 @endsection

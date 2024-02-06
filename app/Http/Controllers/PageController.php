@@ -54,6 +54,8 @@ class PageController extends Controller
     $album = Album::query()->where('user_id', '=', $user->id)->get();
     $like = Like::query()->where('user_id', '=', $user->id)->get();
     $photos = Photos::query()->where('user_id', '=', $user->id)->get();
+    $photoAlbum = $photos->where('album_id', '=', $album->first()->id)->first();
+    $thumbnail = $photoAlbum->latest();
     $albumPhotos = DB::table(DB::raw('(SELECT photos.*, album.album_name, ROW_NUMBER() OVER (PARTITION BY album_id ORDER BY RAND()) as row_num FROM photos LEFT JOIN album ON album.id = photos.album_id WHERE photos.album_id IS NOT NULL) as subquery'))
       ->select('subquery.id', 'subquery.title', 'subquery.file_location', 'subquery.album_name', 'subquery.album_id as albumId')
       ->where('subquery.row_num', '<=', 4)
@@ -71,6 +73,7 @@ class PageController extends Controller
       'album' => $album,
       'latest' => $latestData,
       'like' => $like,
+      'thumbnail' => $thumbnail->first(),
       'photos' => $photos,
       'albumPhotos' => $albumPhotos,
     ]);

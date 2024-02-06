@@ -25,7 +25,7 @@
             </button>
             <div class="mr-3 flex items-center">
                 <button class="button-page" data-url="/profile">
-                    <div class="w-9 h-9 rounded-full mr-2"><img src="{{ url('assets/image/' . $image) }}" alt="profile"
+                    <div class="w-9 h-9 rounded-full mr-2"><img src="{{ asset('storage/image/' . $image) }}" alt="profile"
                             class="rounded-full w-9 h-9 object-cover"></div>
                 </button>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

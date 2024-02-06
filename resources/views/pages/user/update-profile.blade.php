@@ -15,7 +15,7 @@
         <form action="/update-profile" method="post" class="w-auto h-auto flex" enctype="multipart/form-data">
             @csrf
             <div class="w-40 h-40 rounded-full darken-brightness mr-12">
-                <img src="{{ url('assets/image/' . $image) }}" id="profileImage" alt="profile"
+                <img src="{{ asset('storage/image/' . $image) }}" id="profileImage" alt="profile"
                     class="w-40 h-40 rounded-full hover:cursor-pointer mr-12 object-cover">
             </div>
             <div class="w-[50vw]">

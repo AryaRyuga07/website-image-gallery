@@ -8,6 +8,7 @@ use App\Models\Photos;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -22,7 +23,7 @@ class ImageController extends Controller
             foreach ($images as $image) {
                 $imageModel = new Draft();
                 $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('assets/image/draft'), $imageName);
+                $image->storeAs('public/post', $imageName);
                 $imageModel->file_location = $imageName;
                 $imageModel->user_id = $user->id;
                 $imageModel->save();
@@ -37,6 +38,25 @@ class ImageController extends Controller
 
     function postImage(Request $request)
     {
+        $selectedItem = explode(',', $request->input('selected_ids_post'));
+        $album = $request->post('album');
+        $user = User::query()->find($request->user()->getUserId());
+        if (count($selectedItem) > 1) {
+            for ($i = 0; $i < count($selectedItem); $i++) {
+                $data = Draft::where('id', $selectedItem[$i])->first();
+                if ($data) {
+                    $photo = new Photos();
+                    $photo->title = "Gambar " . $i;
+                    $photo->file_location = $data->file_location;
+                    $photo->album_id = $album;
+                    $photo->user_id = $user->id;
+                    $photo->save();
+                    Draft::where('id', $selectedItem[$i])->delete();
+                }
+            }
+            return redirect()->back()->with('success', 'Data terpilih berhasil dihapus');
+        }
+
         $request->validate([
             'image' => 'required',
             'title' => 'required',
@@ -48,8 +68,6 @@ class ImageController extends Controller
         $title = $request->post('title');
         $titleReplace = ucwords(preg_replace('/[^a-zA-Z0-9]/', ' ', $title));
         $description = $request->post('description');
-        $album = $request->post('album');
-        $user = User::query()->find($request->user()->getUserId());
 
         $photo = new Photos();
         $photo->title = $titleReplace;
@@ -72,23 +90,39 @@ class ImageController extends Controller
         $selectedItems = $request->input('selected_ids');
         $arr = explode(",", $selectedItems);
 
-        for ($i = 0; $i < count($arr); $i++) {
-            Draft::where('id', $arr[$i])->delete();
+        foreach ($arr as $draftId) {
+            $draft = Draft::find($draftId);
+            if ($draft) {
+                // Hapus file dari storage
+                $filePath = storage_path('app/public/image/' . $draft->file_location);
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+                // Hapus data dari database
+                $draft->delete();
+            }
         }
         return redirect()->back()->with('success', 'Data terpilih berhasil dihapus');
     }
 
     public function download($id)
     {
-        $photos = Photos::where('id', '=', $id)->get()[0];
-        $path = public_path('/assets/image/draft/' . $photos->file_location);
-        return response()->download($path);
+        $image = Photos::findOrFail($id);
+
+        $path = storage_path('app/public/post/' . $image->file_location);
+
+        if (file_exists($path)) {
+            return response()->download($path);
+        } else {
+            abort(404, 'File not found');
+        }
     }
 
-    public function delete(Request $request, $id)
+    public function delete($id)
     {
-        $photos = Photos::where('id', '=', $id)->get()[0];
-        $photos->delete();
+        $image = Photos::findOrFail($id);
+        Storage::delete('public/post/' . $image->file_location);
+        $image->delete();
         return redirect()->back();
     }
 
@@ -108,7 +142,7 @@ class ImageController extends Controller
     public function deleteAlbum(Request $request, $id)
     {
         $user = User::query()->find($request->user()->getUserId());
-        $album = Album::where('id', '=', $id)->where('user_id','=',$user->id)->get()[0];
+        $album = Album::where('id', '=', $id)->where('user_id', '=', $user->id)->get()[0];
         $album->delete();
         return redirect()->back();
     }

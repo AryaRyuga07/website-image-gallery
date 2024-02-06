@@ -26,7 +26,7 @@
                                 <input type="checkbox" data-id="{{ $item->id }}"
                                     class="checkbox w-5 h-5 rounded-3xl bg-none border border-black mx-2">
                                 <div class="w-20 h-20 rounded-xl"><img
-                                        src="{{ url('assets/image/draft/' . $item->file_location) }}" alt="image"
+                                        src="{{ asset('storage/post/' . $item->file_location) }}" alt="image"
                                         class="w-full h-full rounded-xl object-cover"></div>
                             </div>
                             <p class="text-slate-400 text-md ml-2">20 hari hingga habis masa berlakunya</p>
@@ -40,7 +40,7 @@
                         <input type="checkbox" class="w-7 h-7 rounded-3xl border border-black mx-2" id="selectAllCb">
                         <p class="text-black text-md ml-2 font-bold">Choose All</p>
                     </div>
-                    <form method="post" action="/delete-draft">
+                    <form method="post" action="/delete-draft" id="deleteDraft">
                         @csrf
                         <button type="submit" class="bg-red-500 p-2 rounded-xl hover:bg-red-300 text-white mr-4"
                             onclick="confirm('Are you sure?')">Delete</button>
@@ -49,10 +49,14 @@
             </div>
         </div>
         <form action="/post-image" method="POST" class="bg-white w-3/4 h-full border border-slate-300 overflow-auto"
-            enctype="multipart/form-data">
+            enctype="multipart/form-data" id="postImage">
             @csrf
             <div class="w-[75vw] bg-white h-20 border-b flex justify-between items-center fixed z-50">
-                <p class="font-semibold text-xl ml-6">Pin</p>
+                <div class="flex items-center">
+                    <p class="font-semibold text-xl ml-6">Pin</p>
+                    <p class="ml-2 mt-1 text-md hidden" id="publishMessage">(If you want to post all, don't forget to choose
+                        an album)</p>
+                </div>
                 @if (Session::has('login_error'))
                     <div
                         class="absolute left-20 w-32 h-10 bg-green-300 border border-green-500 rounded-lg flex items-center justify-center">
@@ -149,7 +153,7 @@
                 img.classList.remove('hidden');
                 img.src = source;
                 const imageName = source.split('/');
-                inputImage.value = imageName[6];
+                inputImage.value = imageName[5];
                 // console.log(imageName[6]);
             })
         });
@@ -168,12 +172,22 @@
         // Delete with Checkbox
         document.addEventListener('DOMContentLoaded', function() {
             let checkboxes = document.querySelectorAll('.checkbox');
-            let selectAllCheckbox = document.getElementById('selectAllCb')
+            const publishMsg = document.getElementById('publishMessage');
+            const title = document.getElementById('title');
+            const description = document.getElementById('description');
+            let selectAllCheckbox = document.getElementById('selectAllCb');
+
+            function toggleInput() {
+                title.disabled = !title.disabled;
+                description.disabled = !description.disabled;
+            }
 
             selectAllCheckbox.addEventListener('change', function() {
                 checkboxes.forEach(function(checkbox) {
                     checkbox.checked = selectAllCheckbox.checked;
                 });
+                publishMsg.classList.toggle('hidden');
+                toggleInput();
                 updateHiddenInput();
             });
 
@@ -193,9 +207,11 @@
                     }
                 });
 
-                // Simpan array terpilih ke dalam input tersembunyi
+                console.log("Selected IDs:", selectedIds);
+
+                // Simpan array terpilih ke dalam input tersembunyi untuk formulir
                 let hiddenInput = document.createElement('input');
-                hiddenInput.type = 'hidden';
+                hiddenInput.type = 'hidden'; // Change type to 'hidden'
                 hiddenInput.name = 'selected_ids';
                 hiddenInput.value = selectedIds.join(',');
 
@@ -206,9 +222,36 @@
                 }
 
                 // Tambahkan input tersembunyi ke dalam formulir
-                document.querySelector('form').appendChild(hiddenInput);
-                console.log(selectedIds)
+                let form = document.querySelector('form');
+                if (form) {
+                    form.appendChild(hiddenInput);
+                } else {
+                    console.error("Form not found");
+                }
+
+                // Simpan array terpilih ke dalam input tersembunyi untuk elemen dengan id 'postImage'
+                let hiddenInputPost = document.createElement('input');
+                hiddenInputPost.type = 'hidden'; // Change type to 'hidden'
+                hiddenInputPost.name = 'selected_ids_post'; // Use a different name
+                hiddenInputPost.value = selectedIds.join(',');
+
+                // Hapus input lama jika ada
+                let oldInputPost = document.querySelector('input[name="selected_ids_post"]');
+                if (oldInputPost) {
+                    oldInputPost.remove();
+                }
+
+                // Tambahkan input tersembunyi ke dalam elemen dengan id 'postImage'
+                let postImageElement = document.getElementById('postImage');
+                if (postImageElement) {
+                    postImageElement.appendChild(hiddenInputPost);
+                } else {
+                    console.error("Element with id 'postImage' not found");
+                }
+
+                console.log("Inputs added");
             }
+
         });
     </script>
 @endsection

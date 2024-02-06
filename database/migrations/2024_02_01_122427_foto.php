@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('photos', function (Blueprint $table) {
 			$table->id();
 			$table->string('title');
-			$table->string('description');
+			$table->string('description')->nullable();
 			$table->string('file_location');
-            $table->foreignId('album_id')->references('id')->on('album');
+            $table->foreignId('album_id')->references('id')->on('album')->cascadeOnDelete();
             $table->foreignId('user_id')->references('id')->on('user')->cascadeOnDelete();
 			$table->timestamps();
 		});
