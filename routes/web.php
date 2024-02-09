@@ -33,6 +33,7 @@ Route::prefix('/')->middleware('auth')->group(function() {
 	Route::get('/', [\App\Http\Controllers\PageController::class, 'home']);
 
 	Route::get('/explore', [\App\Http\Controllers\PageController::class, 'explore']);
+	Route::post('/search', [\App\Http\Controllers\ExploreImageController::class, 'search']);
 	Route::post('/explore-image', [\App\Http\Controllers\ExploreImageController::class, 'exploreDetail']);
 	Route::get('/explore-image/{subtitle}', [\App\Http\Controllers\ExploreImageController::class, 'exploreImage']);
 	Route::post('/comment', [\App\Http\Controllers\ActionController::class, 'comment']);

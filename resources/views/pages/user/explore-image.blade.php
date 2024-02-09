@@ -323,7 +323,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             like.addEventListener('click', function() {
-                let id = this.querySelector('p').innerHTML
+                let id = this.querySelector('p').innerHTML;
                 urlLike(id);
             });
             // loadLike();

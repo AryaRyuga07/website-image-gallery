@@ -7,7 +7,7 @@
 @section('body')
     <div class="w-auto h-auto bg-white-200">
         <nav class="w-full h-20 bg-white flex items-center justify-around fixed top-0 z-50">
-            <div class="w-12 h-12 rounded-full"><img src="{{ asset('assets/image/kuduga.jpg') }}" alt="kuduga"
+            <div class="w-8 h-8 ml-5 rounded-full"><img src="{{ asset('assets/image/kuduga.jpg') }}" alt="kuduga"
                     class="rounded-full"></div>
             <button data-url="/" class="button-page">
                 <div class="w-auto h-12 px-6 rounded-3xl hover:bg-stone-200 flex items-center font-semibold">Home</div>
@@ -15,8 +15,15 @@
             <button class="button-page" data-url="/explore">
                 <div class="w-auto h-12 px-6 rounded-3xl flex items-center hover:bg-stone-200 font-semibold">Explore</div>
             </button>
-            <div><input type="text" placeholder="Search..." class="w-[128vh] h-12 rounded-3xl bg-stone-200 py-2 px-3 ">
-            </div>
+            <form action="/search" method="post" class="w-[128vh] h-12 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6 absolute text-stone-500 font-bold ml-4" id="searchIcon">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+                <input type="text" placeholder="Search..." class="w-full h-full rounded-3xl bg-stone-200 py-2 pl-12"
+                    id="searchInput">
+            </form>
             <button class="button-page" data-url="/creation">
                 <div class="w-auto h-12 px-6 rounded-3xl flex items-center hover:bg-stone-200 font-semibold">Post</div>
             </button>
