@@ -143,6 +143,10 @@ class ImageController extends Controller
     {
         $user = User::query()->find($request->user()->getUserId());
         $album = Album::where('id', '=', $id)->where('user_id', '=', $user->id)->get()[0];
+        $image = Photos::query()->where('album_id', '=', $album->id)->get();
+        for ($i=0; $i < $image->count() ; $i++) { 
+            Storage::delete('public/post/' . $image[$i]->file_location);
+        }
         $album->delete();
         return redirect()->back();
     }

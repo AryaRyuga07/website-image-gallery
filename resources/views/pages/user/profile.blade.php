@@ -3,15 +3,17 @@
 @php
     $name = strtr($user->full_name, ['-' => ' ']);
     $image = $user->file_location;
-    if ($image == null) {
-        $image = 'def.png';
-    }
 @endphp
 
 @section('container')
     <div class="bg-white w-screen h-auto mt-20 pt-6 flex flex-col items-center">
-        <div class="w-40 h-40 rounded-full bg-stone-300"><img src="{{ asset('storage/image/' . $image) }}" alt="profile"
-                class="w-40 h-40 rounded-full object-cover"></div>
+        <div class="w-40 h-40 rounded-full bg-stone-300">
+            @if ($image == null)
+                <img src="{{ asset('assets/image/def.png') }}" alt="profile" class="w-40 h-40 rounded-full object-cover">
+            @else
+                <img src="{{ asset('storage/image/' . $image) }}" alt="profile" class="w-40 h-40 rounded-full object-cover">
+            @endif
+        </div>
         <p class="font-semibold text-4xl mt-3">{{ $name }}</p>
         <p class="text-sm font-semibold text-gray-600 mt-2"><label>@</label>{{ $user->username }}</p>
         <div class="flex justify-around w-64 mt-3 text-lg text-stone-400">
@@ -23,7 +25,8 @@
             <form action="/auth/logout" method="get">
                 <button type="submit" class="bg-stone-200 py-3 px-5 rounded-3xl hover:bg-stone-300">Logout</button>
             </form>
-            <button data-url="/update-profile" class="button-page bg-stone-200 p-3 rounded-3xl hover:bg-stone-300">Settings</button>
+            <button data-url="/update-profile"
+                class="button-page bg-stone-200 p-3 rounded-3xl hover:bg-stone-300">Settings</button>
         </div>
         <div class="flex justify-evenly w-64 mt-16 font-semibold">
             <a href="/profile/photos" class="button-profile">Photos</a>

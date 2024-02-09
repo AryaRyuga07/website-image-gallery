@@ -3,10 +3,6 @@
 @php
     $full_name = explode('-', $user->full_name);
     $image = $user->file_location;
-
-    if ($image == null) {
-        $image = 'def.png';
-    }
 @endphp
 
 @section('content')
@@ -15,8 +11,13 @@
         <form action="/update-profile" method="post" class="w-auto h-auto flex" enctype="multipart/form-data">
             @csrf
             <div class="w-40 h-40 rounded-full darken-brightness mr-12">
-                <img src="{{ asset('storage/image/' . $image) }}" id="profileImage" alt="profile"
-                    class="w-40 h-40 rounded-full hover:cursor-pointer mr-12 object-cover">
+                @if ($image == null)
+                    <img src="{{ asset('assets/image/def.png') }}" id="profileImage" alt="profile"
+                        class="w-40 h-40 rounded-full hover:cursor-pointer mr-12 object-cover">
+                @else
+                    <img src="{{ asset('storage/image/' . $image) }}" id="profileImage" alt="profile"
+                        class="w-40 h-40 rounded-full hover:cursor-pointer mr-12 object-cover">
+                @endif
             </div>
             <div class="w-[50vw]">
                 <div class="flex">

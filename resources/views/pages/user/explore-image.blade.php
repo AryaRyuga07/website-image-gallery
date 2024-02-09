@@ -11,7 +11,7 @@
 
 @section('container')
     <div class="w-screen h-auto flex flex-col items-center p-28">
-        <div class="bg-white w-[60vw] h-auto pb-3 rounded-3xl shadow-2xl flex">
+        <div class="bg-white w-[60vw] h-auto pb-3 rounded-3xl shadow-lg flex">
             <div class="bg-white w-1/2 h-full rounded-s-3xl overflow-hidden">
                 <img src="{{ asset('storage/post/' . $photoDetail->file_location) }}" alt="image"
                     class="w-auto h-auto rounded-s-3xl object-cover">

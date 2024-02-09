@@ -2,9 +2,6 @@
 
 @php
     $image = $user->file_location;
-    if($image == null) {
-        $image = 'def.png';
-    }
 @endphp
 
 @section('body')
@@ -25,8 +22,15 @@
             </button>
             <div class="mr-3 flex items-center">
                 <button class="button-page" data-url="/profile">
-                    <div class="w-9 h-9 rounded-full mr-2"><img src="{{ asset('storage/image/' . $image) }}" alt="profile"
-                            class="rounded-full w-9 h-9 object-cover"></div>
+                    <div class="w-9 h-9 rounded-full mr-2">
+                        @if ($image == null)
+                            <img src="{{ asset('assets/image/def.png') }}" alt="profile"
+                                class="rounded-full w-9 h-9 object-cover">
+                        @else
+                            <img src="{{ asset('storage/image/' . $image) }}" alt="profile"
+                                class="rounded-full w-9 h-9 object-cover">
+                        @endif
+                    </div>
                 </button>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-5 h-5 font-bold cursor-pointer text-slate-500" id="arrowDown">

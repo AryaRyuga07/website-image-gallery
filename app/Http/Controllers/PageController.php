@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Album;
+use App\Models\Comment;
 use App\Models\Draft;
 use App\Models\Like;
 use App\Models\Photos;
@@ -53,29 +54,14 @@ class PageController extends Controller
     $user = User::query()->find($request->user()->getUserId());
     $album = Album::query()->where('user_id', '=', $user->id)->get();
     $like = Like::query()->where('user_id', '=', $user->id)->get();
-    $photos = Photos::query()->where('user_id', '=', $user->id)->get();
-    $photoAlbum = $photos->where('album_id', '=', $album->first()->id)->first();
-    $thumbnail = $photoAlbum->latest();
-    $albumPhotos = DB::table(DB::raw('(SELECT photos.*, album.album_name, ROW_NUMBER() OVER (PARTITION BY album_id ORDER BY RAND()) as row_num FROM photos LEFT JOIN album ON album.id = photos.album_id WHERE photos.album_id IS NOT NULL) as subquery'))
-      ->select('subquery.id', 'subquery.title', 'subquery.file_location', 'subquery.album_name', 'subquery.album_id as albumId')
-      ->where('subquery.row_num', '<=', 4)
-      ->where('subquery.user_id', '=', 1)
-      ->latest()
-      ->get();
-
-    $groupedPhotos = $albumPhotos->groupBy('album_name');
-
-    // dd($groupedPhotos);
-
+    $photos = Photos::query()->where('user_id', '=', $user->id)->latest();
     $latestData = Photos::latest()->limit(7)->where('user_id', '=', $user->id)->get();
     return view('pages.user.profile-album', [
       'user' => $user,
       'album' => $album,
       'latest' => $latestData,
       'like' => $like,
-      'thumbnail' => $thumbnail->first(),
       'photos' => $photos,
-      'albumPhotos' => $albumPhotos,
     ]);
   }
 
@@ -90,8 +76,18 @@ class PageController extends Controller
   function home(Request $request)
   {
     $user = User::query()->find($request->user()->getUserId());
+    $photos = Photos::join('user', 'user.id', '=', 'photos.user_id')
+      ->select('photos.id as photoId', 'photos.title', 'photos.description', 'photos.file_location', 'photos.created_at', 'user.id', 'user.full_name', 'user.file_location as profile', 'user.username')
+      ->get();
+    $like = Like::all();
+    $likedUser = $like->where('user_id', '=', $user->id);
+    $comment = Comment::all();
     return view('pages.user.home', [
-      'user' => $user
+      'user' => $user,
+      'photos' => $photos,
+      'like' => $like,
+      'comment' => $comment,
+      'likedUser' => $likedUser,
     ]);
   }
   function explore(Request $request)
