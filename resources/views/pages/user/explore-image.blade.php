@@ -101,7 +101,7 @@
                                     class="w-11/12 bg-gray-200 rounded-3xl p-2 border border-transparent focus:border-transparent">
                                 <input type="hidden" name="photoId" value="{{ $photoDetail->id }}">
                             </div>
-                            <button type="submit" class="w-10 h-10 absolute -right-1 mt-[0.15rem]" id="sendComment">
+                            <button type="submit" class="w-10 h-10 absolute -right-1 mt-[0.15rem]" id="sendComment" onclick="this.disabled=true;this.form.submit();">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6" id="sendCommentFirst">
                                     <path stroke-linecap="round" stroke-linejoin="round"

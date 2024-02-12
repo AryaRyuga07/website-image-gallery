@@ -66,7 +66,7 @@
                 <div class="mr-6 flex items-center">
                     <p class="mr-6 font-semibold text-lg text-stone-400">Publish Image Now</p>
                     <button type="submit"
-                        class="bg-red-500 text-white p-3 rounded-3xl font-semibold text-center w-32 mr-6 hover:bg-red-600">Publish</button>
+                        class="bg-red-500 text-white p-3 rounded-3xl font-semibold text-center w-32 mr-6 hover:bg-red-600" onclick="this.disabled=true;this.form.submit();">Publish</button>
                 </div>
             </div>
             <div class="w-full h-auto bg-gray-200 pt-32 flex">
