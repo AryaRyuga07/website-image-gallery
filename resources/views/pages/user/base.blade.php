@@ -7,8 +7,8 @@
 @section('body')
     <div class="w-auto h-auto bg-white-200">
         <nav class="w-full h-20 bg-white flex items-center justify-around fixed top-0 z-50">
-            <div class="w-8 h-8 ml-5 rounded-full"><img src="{{ asset('assets/image/kuduga.jpg') }}" alt="kuduga"
-                    class="rounded-full"></div>
+            <a target="_blank" href="https://www.kuduga.com/" class="w-8 h-8 ml-5 rounded-full"><img src="{{ asset('assets/image/kuduga.jpg') }}" alt="kuduga"
+                    class="rounded-full"></a>
             <button data-url="/" class="button-page">
                 <div class="w-auto h-12 px-6 rounded-3xl hover:bg-stone-200 flex items-center font-semibold">Home</div>
             </button>
