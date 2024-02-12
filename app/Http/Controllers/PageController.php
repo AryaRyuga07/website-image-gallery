@@ -16,7 +16,10 @@ class PageController extends Controller
   function profile(Request $request)
   {
     $user = User::query()->find($request->user()->getUserId());
-    $like = Like::query()->where('user_id', '=', $user->id)->get();
+    $like = DB::table('photos')
+      ->join('likes', 'likes.photo_id', '=', 'photos.id')
+      ->where('photos.user_id', $user->id)
+      ->count();
     $photos = Photos::query()->where('user_id', '=', $user->id)->get();
     return view('pages.user.profile', [
       'user' => $user,
@@ -29,7 +32,10 @@ class PageController extends Controller
   {
     $user = User::query()->find($request->user()->getUserId());
     $photos = Photos::query()->where('user_id', '=', $user->id)->get();
-    $like = Like::query()->where('user_id', '=', $user->id)->get();
+    $like = DB::table('photos')
+      ->join('likes', 'likes.photo_id', '=', 'photos.id')
+      ->where('photos.user_id', $user->id)
+      ->count();
     return view('pages.user.profile-photos', [
       'user' => $user,
       'photos' => $photos,
@@ -41,7 +47,10 @@ class PageController extends Controller
   {
     $user = User::query()->find($request->user()->getUserId());
     $photos = Photos::query()->where('user_id', '=', $user->id)->get();
-    $like = Like::query()->where('user_id', '=', $user->id)->get();
+    $like = DB::table('photos')
+      ->join('likes', 'likes.photo_id', '=', 'photos.id')
+      ->where('photos.user_id', $user->id)
+      ->count();
     return view('pages.user.profile-favorite', [
       'user' => $user,
       'photos' => $photos,
@@ -53,7 +62,10 @@ class PageController extends Controller
   {
     $user = User::query()->find($request->user()->getUserId());
     $album = Album::query()->where('user_id', '=', $user->id)->get();
-    $like = Like::query()->where('user_id', '=', $user->id)->get();
+    $like = DB::table('photos')
+      ->join('likes', 'likes.photo_id', '=', 'photos.id')
+      ->where('photos.user_id', $user->id)
+      ->count();
     $photos = Photos::query()->where('user_id', '=', $user->id)->latest();
     $latestData = Photos::latest()->limit(7)->where('user_id', '=', $user->id)->get();
     return view('pages.user.profile-album', [
@@ -92,14 +104,24 @@ class PageController extends Controller
   }
   function explore(Request $request)
   {
+    $search = $request->input('q');
     $user = User::query()->find($request->user()->getUserId());
-    $photos = Photos::all();
+    if ($search === null) {
+      $photos = Photos::all();
+      $result = Photos::select('photos.id', 'photos.title', 'photos.file_location', DB::raw('COALESCE(likes_count, 0) as likeTotal'), DB::raw('COALESCE(comment_count, 0) as commentTotal'))
+        ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as likes_count FROM likes GROUP BY photo_id) as likes'), 'likes.photo_id', '=', 'photos.id')
+        ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as comment_count FROM comments GROUP BY photo_id) as comments'), 'comments.photo_id', '=', 'photos.id')
+        ->orderByDesc('photos.id')
+        ->get();
+    } else {
+      $photos = Photos::query()->where('title', 'like', '%' . $search . '%')->orWhere('description', 'like', '%' . $search . '%');
+      $result = $photos->select('photos.id', 'photos.title', 'photos.file_location', DB::raw('COALESCE(likes_count, 0) as likeTotal'), DB::raw('COALESCE(comment_count, 0) as commentTotal'))
+        ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as likes_count FROM likes GROUP BY photo_id) as likes'), 'likes.photo_id', '=', 'photos.id')
+        ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as comment_count FROM comments GROUP BY photo_id) as comments'), 'comments.photo_id', '=', 'photos.id')
+        ->orderByDesc('photos.id')
+        ->get();
+    }
     $like = Like::all();
-    $result = Photos::select('photos.id', 'photos.title', 'photos.file_location', DB::raw('COALESCE(likes_count, 0) as likeTotal'), DB::raw('COALESCE(comment_count, 0) as commentTotal'))
-      ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as likes_count FROM likes GROUP BY photo_id) as likes'), 'likes.photo_id', '=', 'photos.id')
-      ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as comment_count FROM comments GROUP BY photo_id) as comments'), 'comments.photo_id', '=', 'photos.id')
-      ->orderByDesc('photos.id')
-      ->get();
     return view('pages.user.explore', [
       'user' => $user,
       'photos' => $photos,

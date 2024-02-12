@@ -23,21 +23,30 @@ class ExploreImageController extends Controller
     {
         $url = $request->segment(2);
         $title = ucwords(strtolower(str_replace("-", " ", $url)));
+
         $user = User::query()->find($request->user()->getUserId());
-        $PhotoUser = Photos::join('user', 'photos.user_id', '=', 'user.id')->select('photos.*', 'user.username', 'user.file_location AS user_photo', 'user.full_name')->get();
+        $photoUser = Photos::join('user', 'photos.user_id', '=', 'user.id')
+            ->select('photos.*', 'user.username', 'user.file_location AS user_photo', 'user.full_name')
+            ->get();
+
         $photos = Photos::all();
-        $photoDetail = $PhotoUser->where('title', '=', $title)->first();
-        $comment = Comment::join('user', 'comments.user_id', '=', 'user.id')->select('comments.*', 'user.username', 'user.file_location AS user_photo', 'user.full_name')->get();
+        $photoDetail = $photoUser->where('title', '=', $title)->first();
+
+        $comment = Comment::join('user', 'comments.user_id', '=', 'user.id')
+            ->select('comments.*', 'user.username', 'user.file_location AS user_photo', 'user.full_name')
+            ->get();
+
         $commentPhoto = $comment->where('photo_id', '=', $photoDetail->id);
+
         $like = Like::all();
         $liked = $like->where('photo_id', '=', $photoDetail->id);
         $likedUser = $liked->where('user_id', '=', $user->id);
+
         $result = Photos::select('photos.id', 'photos.title', 'photos.file_location', DB::raw('COALESCE(likes_count, 0) as likeTotal'), DB::raw('COALESCE(comment_count, 0) as commentTotal'))
             ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as likes_count FROM likes GROUP BY photo_id) as likes'), 'likes.photo_id', '=', 'photos.id')
             ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as comment_count FROM comments GROUP BY photo_id) as comments'), 'comments.photo_id', '=', 'photos.id')
             ->orderByDesc('photos.id')
             ->get();
-
 
         $responseData = [
             'user' => $user,
@@ -50,11 +59,30 @@ class ExploreImageController extends Controller
         ];
 
         // Check if the request expects JSON
-        if (request()->expectsJson()) {
+        if ($request->expectsJson()) {
             return response()->json($responseData);
         }
 
         // Return the view along with data
         return view('pages.user.explore-image', $responseData);
+    }
+
+    public function search(Request $request)
+    {
+        // $search = $request->input('q');
+        // $user = User::query()->find($request->user()->getUserId());
+        // $photos = Photos::query()->where('title', 'like', '%'.$search.'%')->orWhere('description', 'like', '%'.$search.'%')->get();
+        // $like = Like::all();
+        // $result = Photos::select('photos.id', 'photos.title', 'photos.file_location', DB::raw('COALESCE(likes_count, 0) as likeTotal'), DB::raw('COALESCE(comment_count, 0) as commentTotal'))
+        // ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as likes_count FROM likes GROUP BY photo_id) as likes'), 'likes.photo_id', '=', 'photos.id')
+        // ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as comment_count FROM comments GROUP BY photo_id) as comments'), 'comments.photo_id', '=', 'photos.id')
+        // ->orderByDesc('photos.id')
+        // ->get();
+        // return view('pages.user.explore', [
+        //     'user' => $user,
+        //     'photos' => $photos,
+        //     'like' => $like,
+        //     'result' => $result,
+        // ]);
     }
 }

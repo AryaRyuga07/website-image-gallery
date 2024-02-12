@@ -17,11 +17,11 @@
             <div class="bg-slate-200 h-auto w-[50vw] rounded-3xl mb-10">
                 <div class="w-full h-24 flex justify-between items-center">
                     <div class="w-72 h-full flex items-center ml-4 mt-4">
-                        <div class="w-20 h-20 rounded-full mx-5 cursor-pointer"><img
+                        <div class="w-20 h-20 rounded-full mx-5 cursor-pointer button-page" data-url="/ex-profile/{{ strtolower($item['username']) }}"><img
                                 src="{{ asset('storage/image/' . $item['profile']) }}" alt="yopi" class="rounded-full">
                         </div>
                         <div class="flex flex-col">
-                            <p class="text-xl font-semibold cursor-pointer">{{ $name }}</p>
+                            <p class="text-xl font-semibold cursor-pointer button-page" data-url="/ex-profile/{{ strtolower($item['username']) }}">{{ $name }}</p>
                             <p class="text-sm">{{ \Carbon\Carbon::parse($item['created_at'])->format('j F Y') }}</p>
                         </div>
                     </div>
@@ -133,7 +133,7 @@
             shared.addEventListener('click', function(e) {
                 let title = this.getAttribute('data-title');
                 let url = window.location.href;
-                let link = url + 'explore-image/' + title.toLowerCase().replace(' ', '-');
+                let link = url + 'explore-image/' + title.toLowerCase().replace(" ", "-");
 
                 navigator.clipboard.writeText(link)
                     .then(() => {

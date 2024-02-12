@@ -286,7 +286,6 @@
             fetch(postEndpoint, requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data.url);
                     window.location.href = "/explore-image/" + data.url;
                 })
                 .catch(error => {
@@ -317,6 +316,7 @@
 
         dot.addEventListener('click', function(e) {
             e.stopPropagation();
+            e.preventDefault();
             let id = e.currentTarget.parentNode.querySelector('img').id;
             window.location.href = "/download/" + id;
         });

@@ -7,7 +7,7 @@
                 <p class="mb-2 text-4xl font-bold text-center text-white">
                     RyeVision Gallery
                 </p>
-                <p class="mb-12 text-lg text-center text-white font-semibold">Supported by Kuduga</p>
+                <p class="mb-12 text-lg text-center text-white font-semibold">Supported by <a target="_blank" class="font-bold underline" href="https://www.kuduga.com/">Kuduga</a></p>
                 @csrf
                 @if (Session::has('login_error'))
                     <div class="mb-4">

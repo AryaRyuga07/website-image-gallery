@@ -41,12 +41,19 @@ class ImageController extends Controller
         $selectedItem = explode(',', $request->input('selected_ids_post'));
         $album = $request->post('album');
         $user = User::query()->find($request->user()->getUserId());
+        $fullname = str_replace('-', ' ', $user->full_name);
+        $photos = Photos::query()->latest()->first();
+        if ($photos === null) {
+            $num = 0;
+        } else {
+            $num = $photos->id;
+        }
         if (count($selectedItem) > 1) {
             for ($i = 0; $i < count($selectedItem); $i++) {
                 $data = Draft::where('id', $selectedItem[$i])->first();
                 if ($data) {
                     $photo = new Photos();
-                    $photo->title = "Gambar " . $i;
+                    $photo->title = "Gambar " . $num++ . " " . $fullname;
                     $photo->file_location = $data->file_location;
                     $photo->album_id = $album;
                     $photo->user_id = $user->id;
@@ -144,7 +151,7 @@ class ImageController extends Controller
         $user = User::query()->find($request->user()->getUserId());
         $album = Album::where('id', '=', $id)->where('user_id', '=', $user->id)->get()[0];
         $image = Photos::query()->where('album_id', '=', $album->id)->get();
-        for ($i=0; $i < $image->count() ; $i++) { 
+        for ($i = 0; $i < $image->count(); $i++) {
             Storage::delete('public/post/' . $image[$i]->file_location);
         }
         $album->delete();

@@ -33,7 +33,7 @@ Route::prefix('/')->middleware('auth')->group(function() {
 	Route::get('/', [\App\Http\Controllers\PageController::class, 'home']);
 
 	Route::get('/explore', [\App\Http\Controllers\PageController::class, 'explore']);
-	Route::post('/search', [\App\Http\Controllers\ExploreImageController::class, 'search']);
+	Route::get('/search', [\App\Http\Controllers\PageController::class, 'explore']);
 	Route::post('/explore-image', [\App\Http\Controllers\ExploreImageController::class, 'exploreDetail']);
 	Route::get('/explore-image/{subtitle}', [\App\Http\Controllers\ExploreImageController::class, 'exploreImage']);
 	Route::post('/comment', [\App\Http\Controllers\ActionController::class, 'comment']);
@@ -46,6 +46,11 @@ Route::prefix('/')->middleware('auth')->group(function() {
 	Route::get('/profile/photos', [\App\Http\Controllers\PageController::class, 'profilePhotos']);
 	Route::get('/profile/album', [\App\Http\Controllers\PageController::class, 'profileAlbum']);
 	Route::get('/profile/favorite', [\App\Http\Controllers\PageController::class, 'profileFavorite']);
+	
+	Route::get('/ex-profile/{acc}', [\App\Http\Controllers\ExploreProfileController::class, 'exploreProfile']);
+	Route::get('/ex-profile/photos/{acc}', [\App\Http\Controllers\ExploreProfileController::class, 'profilePhotos']);
+	Route::get('/ex-profile/album/{acc}', [\App\Http\Controllers\ExploreProfileController::class, 'profileAlbum']);
+	Route::get('/ex-profile/favorite/{acc}', [\App\Http\Controllers\ExploreProfileController::class, 'profileFavorite']);
 	
 	Route::get('/update-profile', [\App\Http\Controllers\PageController::class, 'updateProfile']);
 	Route::get('/update-account', [\App\Http\Controllers\PageController::class, 'updateAccount']);
