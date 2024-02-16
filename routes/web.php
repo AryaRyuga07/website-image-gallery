@@ -42,6 +42,7 @@ Route::prefix('/')->middleware('auth')->group(function() {
 	Route::get('/delete/{id}', [\App\Http\Controllers\ImageController::class, 'delete']);
 	Route::get('/delete-album/{id}', [\App\Http\Controllers\ImageController::class, 'deleteAlbum']);
 	
+	Route::get('/analytics', [\App\Http\Controllers\PageController::class, 'analytics']);
 	Route::get('/profile', [\App\Http\Controllers\PageController::class, 'profile']);
 	Route::get('/profile/photos', [\App\Http\Controllers\PageController::class, 'profilePhotos']);
 	Route::get('/profile/album', [\App\Http\Controllers\PageController::class, 'profileAlbum']);

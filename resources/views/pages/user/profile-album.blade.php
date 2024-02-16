@@ -1,18 +1,18 @@
 @extends('pages.user.profile')
 
 @section('content')
-    <div class="mt-5 h-auto w-[94vw] mx-auto flex gap-3 flex-wrap">
-        <div class="w-52 h-72 bg-gray-200 rounded-3xl flex flex-col justify-center items-center cursor-pointer hover:bg-gray-50 transition duration-100 shadow-lg"
+    <div class="mt-5 h-auto xl:w-[94vw] mx-auto flex gap-3 flex-wrap">
+        <div class="xl:w-52 w-44 h-72 bg-gray-200 rounded-3xl flex flex-col justify-center items-center cursor-pointer hover:bg-gray-50 transition duration-100 shadow-lg"
             id="album">
             <p class="text-4xl font-bold mb-4">+</p>
             <p>Add Album</p>
         </div>
 
-        @foreach ($album as $item)
-            <div class="darken-brightness relative w-52 h-72 bg-gray-200 rounded-3xl flex flex-col items-center cursor-pointer hover:bg-white transition duration-100 shadow-lg overflow-hidden"
+        @foreach ($albumsPhoto as $item)
+            <div class="darken-brightness relative xl:w-52 w-44 h-72 bg-gray-200 rounded-3xl flex flex-col items-center cursor-pointer hover:bg-white transition duration-100 shadow-lg overflow-hidden"
                 id="{{ $item->id }}">
-                @if ($photos->count() !== 0)
-                    <img src="{{ asset('storage/post/' . $photos->first()->file_location) }}" class="w-full h-full object-cover">
+                @if ($item->last_uploaded_image !== null)
+                    <img src="{{ asset('storage/post/' . $item->last_uploaded_image) }}" class="w-full h-full object-cover">
                 @else
                     {{-- <img src="{{ asset('storage/post/' . $photos->file_location) }}" class="w-full h-full object-cover"> --}}
                 @endif

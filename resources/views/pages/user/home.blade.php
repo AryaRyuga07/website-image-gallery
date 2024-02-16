@@ -14,19 +14,19 @@
                 $first = 'block';
             @endphp
             {{-- @if ($item->description !== null) --}}
-            <div class="bg-slate-200 h-auto w-[50vw] rounded-3xl mb-10">
+            <div class="bg-slate-200 h-[60vh] w-[80vw] xl:h-auto xl:w-[50vw] rounded-3xl mb-10">
                 <div class="w-full h-24 flex justify-between items-center">
-                    <div class="w-72 h-full flex items-center ml-4 mt-4">
+                    <div class="w-72 h-full flex items-center xl:ml-4 mt-4">
                         <div class="w-20 h-20 rounded-full mx-5 cursor-pointer button-page" data-url="/ex-profile/{{ strtolower($item['username']) }}"><img
-                                src="{{ asset('storage/image/' . $item['profile']) }}" alt="yopi" class="rounded-full">
+                                src="{{ asset('storage/image/' . $item['profile']) }}" alt="yopi" class="rounded-full object-cover">
                         </div>
                         <div class="flex flex-col">
-                            <p class="text-xl font-semibold cursor-pointer button-page" data-url="/ex-profile/{{ strtolower($item['username']) }}">{{ $name }}</p>
-                            <p class="text-sm">{{ \Carbon\Carbon::parse($item['created_at'])->format('j F Y') }}</p>
+                            <p class="text-md xl:text-xl font-semibold cursor-pointer button-page" data-url="/ex-profile/{{ strtolower($item['username']) }}">{{ $name }}</p>
+                            <p class="text-xs xl:text-sm">{{ \Carbon\Carbon::parse($item['created_at'])->format('j F Y') }}</p>
                         </div>
                     </div>
-                    <div class="w-72 h-full flex justify-end items-center">
-                        <div class="mr-10 cursor-pointer">
+                    <div class="w-20 h-full flex justify-end items-center">
+                        <div class="mr-4 xl:mr-10 cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-8 h-8">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -44,7 +44,7 @@
                 </div>
                 <div class="w-11/12 mx-auto h-32">
                     <div class="w-full h-8 flex flex-col justify-center">
-                        <div class="flex items-center justify-between pt-5">
+                        <div class="flex items-center justify-center xl:justify-between pt-5">
                             <div class="flex items-center mt-16">
                                 <div class="flex mr-12 items-center" id="{{ $item['photoId'] }}">
                                     @php
@@ -82,7 +82,7 @@
                                     <p class="text-3xl font-bold">{{ $comments->count() }}</p>
                                 </div>
                             </div>
-                            <div class="mb-3 mt-16 cursor-pointer">
+                            <div class="mb-3 mt-16 cursor-pointer hidden xl:block">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-14 h-14 share"
                                     data-title="{{ $item['title'] }}">

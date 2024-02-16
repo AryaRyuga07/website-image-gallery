@@ -3,7 +3,7 @@
 @section('body')
     <div class="w-screen h-screen bg-gray-200 flex justify-center items-center">
         <div class="w-5/6 h-5/6 bg-primary shadow-lg rounded-3xl relative flex flex-col justify-center">
-            <form method="post" action="{{ url('auth/login') }}" class="w-full flex flex-col items-center p-8">
+            <form method="post" action="{{ url('auth/login') }}" class="2xl:w-full flex flex-col items-center p-8">
                 <p class="mb-2 text-4xl font-bold text-center text-white">
                     RyeVision Gallery
                 </p>
@@ -16,14 +16,14 @@
                         </div>
                     </div>
                 @endif
-                <div class="mb-4">
-                    <input type="text" name="username" placeholder="username" autocomplete="off" class="w-96 h-14 rounded-3xl p-4">
+                <div class="xl:w-1/2 mb-4">
+                    <input type="text" name="username" placeholder="username" autocomplete="off" class="w-full h-14 rounded-3xl p-4">
                 </div>
-                <div class="mb-4">
-                    <input type="password" name="password" placeholder="password" class="w-96 h-14 rounded-3xl p-4">
+                <div class="xl:w-1/2 mb-4">
+                    <input type="password" name="password" placeholder="password" class="w-full h-14 rounded-3xl p-4">
                 </div>
-                <div class="mb-4 flex flex-col">
-                    <button type="submit" class="w-96 h-12 bg-secondary rounded-3xl font-semibold hover:bg-third transition duration-300">Login</button>
+                <div class="xl:w-1/2 mb-4 flex flex-col items-center">
+                    <button type="submit" class="px-20 xl:w-full h-12 bg-secondary rounded-3xl font-semibold hover:bg-third transition duration-300">Login</button>
                     <a class="text-white font-medium ml-3 mt-3 underline hover:cursor-pointer">forgot password?</a>
                 </div>
             </form>

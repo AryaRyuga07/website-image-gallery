@@ -21,10 +21,12 @@
             <p>{{ $like }} Like</p>
             <p>0 Follower</p>
         </div>
-        <div class="flex justify-evenly w-64 mt-3">
+        <div class="flex justify-evenly w-72 mt-3">
             <form action="/auth/logout" method="get">
                 <button type="submit" class="bg-stone-200 py-3 px-5 rounded-3xl hover:bg-stone-300">Logout</button>
             </form>
+            <button data-url="/analytics"
+                class="button-page bg-stone-200 p-3 rounded-3xl hover:bg-stone-300">Analytics</button>
             <button data-url="/update-profile"
                 class="button-page bg-stone-200 p-3 rounded-3xl hover:bg-stone-300">Settings</button>
         </div>

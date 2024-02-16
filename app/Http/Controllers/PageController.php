@@ -66,12 +66,19 @@ class PageController extends Controller
       ->join('likes', 'likes.photo_id', '=', 'photos.id')
       ->where('photos.user_id', $user->id)
       ->count();
+    $albumsPhoto = Album::query()
+      ->select(
+        'album.*',
+        DB::raw('(SELECT file_location FROM photos WHERE photos.album_id = album.id ORDER BY created_at DESC LIMIT 1) AS last_uploaded_image')
+      )
+      ->where('user_id', $user->id)
+      ->get();
     $photos = Photos::query()->where('user_id', '=', $user->id)->latest();
-    $latestData = Photos::latest()->limit(7)->where('user_id', '=', $user->id)->get();
+
     return view('pages.user.profile-album', [
       'user' => $user,
       'album' => $album,
-      'latest' => $latestData,
+      'albumsPhoto' => $albumsPhoto,
       'like' => $like,
       'photos' => $photos,
     ]);
@@ -160,6 +167,34 @@ class PageController extends Controller
     $user = User::query()->find($request->user()->getUserId());
     return view('pages.user.delete-account', [
       'user' => $user
+    ]);
+  }
+  public function analytics(Request $request)
+  {
+    $user = User::query()->find($request->user()->getUserId());
+    $photos = Photos::query()
+      ->select(
+        'photos.*',
+        DB::raw('(SELECT COUNT(*) FROM likes WHERE likes.photo_id = photos.id) AS likes_count'),
+        DB::raw('(SELECT COUNT(*) FROM comments WHERE comments.photo_id = photos.id) AS comments_count')
+      )
+      ->where('user_id', '=', $user->id)
+      ->orderByDesc('likes_count')
+      ->get();
+    $albums = Album::query()
+      ->select(
+        'album.*',
+        DB::raw('(SELECT COUNT(*) FROM likes INNER JOIN photos ON likes.photo_id = photos.id WHERE photos.album_id = album.id) AS likes_count'),
+        DB::raw('(SELECT COUNT(*) FROM comments INNER JOIN photos ON comments.photo_id = photos.id WHERE photos.album_id = album.id) AS comments_count'),
+        DB::raw('(SELECT file_location FROM photos WHERE photos.album_id = album.id ORDER BY created_at DESC LIMIT 1) AS last_uploaded_image')
+      )
+      ->where('user_id', $user->id)
+      ->orderByDesc('likes_count')
+      ->get();
+    return view('pages.user.analytics', [
+      'user' => $user,
+      'photos' => $photos,
+      'albums' => $albums,
     ]);
   }
 }

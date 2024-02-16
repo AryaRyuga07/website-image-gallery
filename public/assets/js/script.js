@@ -55,3 +55,10 @@ search.addEventListener("blur", () => {
     document.body.removeChild(darkEl);
     document.body.classList.remove('overflow-hidden');
 });
+
+const menu = document.getElementById("hamburger");
+const side = document.getElementById('sidebar');
+
+menu.addEventListener('click', function () {
+    side.classList.toggle('hidden');
+});

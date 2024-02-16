@@ -13,10 +13,10 @@
                 @if ($draft->count() == 0)
                     <div class="w-full h-28 rounded-3xl flex items-center">
                         <div class="w-40 h-full border-black flex items-center">
-                            <input type="checkbox" class="w-5 h-5 rounded-3xl bg-none border border-black mx-2">
+                            <input type="checkbox" class="w-5 h-5 rounded-3xl bg-none border border-black mx-2" disabled>
                             <div class="w-20 h-20 bg-stone-400 rounded-xl"></div>
                         </div>
-                        <p class="text-slate-400 text-md ml-2">20 hari hingga habis masa berlakunya</p>
+                        <p class="text-slate-400 text-md ml-2">-</p>
                     </div>
                 @else
                     @foreach ($draft as $item)
@@ -29,7 +29,7 @@
                                         src="{{ asset('storage/post/' . $item->file_location) }}" alt="image"
                                         class="w-full h-full rounded-xl object-cover"></div>
                             </div>
-                            <p class="text-slate-400 text-md ml-2">20 hari hingga habis masa berlakunya</p>
+                            <p class="text-slate-400 text-md ml-2">{{ \Carbon\Carbon::parse($item->created_at)->format('j F Y') }}</p>
                         </div>
                     @endforeach
                 @endif
@@ -154,7 +154,6 @@
                 img.src = source;
                 const imageName = source.split('/');
                 inputImage.value = imageName[5];
-                // console.log(imageName[6]);
             })
         });
 
