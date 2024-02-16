@@ -51,7 +51,7 @@
                         <div class="w-auto h-24 mx-3 my-3 flex items-center hover:bg-slate-200 cursor-pointer rounded-3xl draft-image" data-like="{{ $item->likes_count }}" data-comment="{{ $item->comments_count }}">
                             <img src="{{ asset('storage/post/' . $item->file_location) }}" class="w-20 h-20 object-cover rounded-3xl">  
                             <p class="truncate w-52 text-xl ml-5">{{ $item->title }}</p>
-                            <p class="truncate w-96 text-xl ml-8">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi itaque adipisci mollitia, sequi delectus porro nihil suscipit incidunt amet? Recusandae impedit in est ab dolorum non tempora provident harum, aperiam repellat eum natus earum cupiditate? Iure eum quaerat eveniet perferendis.</p>
+                            <p class="truncate w-96 text-xl ml-8">{{ $item->description }}</p>
                             <p class="truncate w-20 atext-xl ml-5">New</p>
                         </div>
                     @endforeach
@@ -66,7 +66,7 @@
                         <div class="w-auto h-24 mx-3 my-3 flex items-center hover:bg-slate-200 cursor-pointer rounded-3xl draft-image" data-like="{{ $item->likes_count }}" data-comment="{{ $item->comments_count }}">
                             <img src="{{ asset('storage/post/' . $item->last_uploaded_image) }}" class="w-20 h-20 object-cover rounded-3xl">  
                             <p class="truncate w-52 text-xl ml-5">{{ $item->album_name }}</p>
-                            <p class="truncate w-96 text-xl ml-8">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi itaque adipisci mollitia, sequi delectus porro nihil suscipit incidunt amet? Recusandae impedit in est ab dolorum non tempora provident harum, aperiam repellat eum natus earum cupiditate? Iure eum quaerat eveniet perferendis.</p>
+                            <p class="truncate w-96 text-xl ml-8">{{ $item->description }}</p>
                         </div>
                     @endforeach
                 </div>

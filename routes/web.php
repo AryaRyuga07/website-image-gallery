@@ -36,6 +36,9 @@ Route::prefix('/')->middleware('auth')->group(function() {
 	Route::get('/search', [\App\Http\Controllers\PageController::class, 'explore']);
 	Route::post('/explore-image', [\App\Http\Controllers\ExploreImageController::class, 'exploreDetail']);
 	Route::get('/explore-image/{subtitle}', [\App\Http\Controllers\ExploreImageController::class, 'exploreImage']);
+	Route::post('/update-photo', [\App\Http\Controllers\ImageController::class, 'updatePhoto']);
+	Route::post('/update-image', [\App\Http\Controllers\ImageController::class, 'updateImage']);
+	Route::get('/update-photo/{subtitle}', [\App\Http\Controllers\ImageController::class, 'editPhoto']);
 	Route::post('/comment', [\App\Http\Controllers\ActionController::class, 'comment']);
 	Route::post('/like', [\App\Http\Controllers\ActionController::class, 'like']);
 	Route::get('/download/{id}', [\App\Http\Controllers\ImageController::class, 'download']);
@@ -69,7 +72,5 @@ Route::prefix('/')->middleware('auth')->group(function() {
 	Route::post('/post-image', [\App\Http\Controllers\ImageController::class, 'postImage']);
 	
 	Route::get('/creation', [\App\Http\Controllers\PageController::class, 'creation']);
-	Route::get('test', function(){
-		return view('pages.user.test');
-	});
+	Route::get('test', [\App\Http\Controllers\PageController::class, 'test']);
 });

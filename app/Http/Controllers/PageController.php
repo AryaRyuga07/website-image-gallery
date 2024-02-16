@@ -155,6 +155,7 @@ class PageController extends Controller
       'user' => $user
     ]);
   }
+  
   function updateAccount(Request $request)
   {
     $user = User::query()->find($request->user()->getUserId());
@@ -195,6 +196,14 @@ class PageController extends Controller
       'user' => $user,
       'photos' => $photos,
       'albums' => $albums,
+    ]);
+  }
+
+  function test(Request $request)
+  {
+    $user = User::query()->find($request->user()->getUserId());
+    return view('pages.user.test', [
+      'user' => $user
     ]);
   }
 }

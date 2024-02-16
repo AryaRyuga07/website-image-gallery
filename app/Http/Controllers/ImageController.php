@@ -157,4 +157,62 @@ class ImageController extends Controller
         $album->delete();
         return redirect()->back();
     }
+
+    public function updatePhoto(Request $request)
+    {
+        $idImages = $request->json()->all();
+        $photos = Photos::query()->where('id', '=', $idImages)->first();
+        $url = strtolower(str_replace(" ", "-", $photos->title));
+        return response()->json(['success' => true, 'url' => $url, 'id' => $idImages]);
+    }
+
+    public function editPhoto(Request $request)
+    {
+        $url = $request->segment(2);
+        $title = ucwords(strtolower(str_replace("-", " ", $url)));
+
+        $user = User::query()->find($request->user()->getUserId());
+        $photoUser = Photos::join('user', 'photos.user_id', '=', 'user.id')
+            ->select('photos.*', 'user.username', 'user.file_location AS user_photo', 'user.full_name')
+            ->get();
+        $photoDetail = $photoUser->where('title', '=', $title)->first();
+
+        $responseData = [
+            'user' => $user,
+            'photoDetail' => $photoDetail,
+        ];
+
+        // Check if the request expects JSON
+        if ($request->expectsJson()) {
+            return response()->json($responseData);
+        }
+
+        // Return the view along with data
+        return view('pages.user.update-photo', $responseData);
+    }
+
+    public function updateImage(Request $request)
+    {
+        $title = $request->post('title');
+        $desc = $request->post('description');
+        $image = $request->file('image');
+        $oldImage = $request->file('oldImage');
+
+        $photos = Photos::find($request->post('id'));
+        $photos->title = $title;
+        $photos->description = $desc;
+
+        if($image === $oldImage){
+            $photos->save();
+            return redirect('/profile/photos');
+        }
+
+        $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
+        $image->storeAs('public/post', $imageName);
+        $photos->file_location = $imageName;
+        Storage::delete('public/post/' . $oldImage);
+
+        $photos->save();
+        return redirect('/profile/photos');
+    }
 }
