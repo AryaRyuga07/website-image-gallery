@@ -12,7 +12,7 @@
             <div class="darken-brightness relative xl:w-52 w-44 h-72 bg-gray-200 rounded-3xl flex flex-col items-center cursor-pointer hover:bg-white transition duration-100 shadow-lg overflow-hidden"
                 id="{{ $item->id }}">
                 @if ($item->last_uploaded_image !== null)
-                    <img src="{{ asset('storage/post/' . $item->last_uploaded_image) }}" class="w-full h-full object-cover">
+                    <img src="{{ asset('storage/post/' . $item->last_uploaded_image) }}" class="w-full h-full object-cover" id="{{ $item->id }}">
                 @else
                     {{-- <img src="{{ asset('storage/post/' . $photos->file_location) }}" class="w-full h-full object-cover"> --}}
                 @endif
@@ -67,6 +67,12 @@
             });
         });
 
+        darken.addEventListener('click', function(e) {
+            e.stopPropagation();
+            let id = e.currentTarget.parentNode.querySelector('img').id;
+            urlAccess(id);
+        });
+
         del.addEventListener('click', function(e) {
             e.stopPropagation();
             let id = e.currentTarget.parentNode.id;
@@ -80,5 +86,30 @@
         album.addEventListener('click', () => {
             window.location.href = "/add-album";
         });
+
+        const urlAccess = (param) => {
+            const requestOptions = {
+                method: 'POST',
+                body: JSON.stringify(param),
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+            };
+
+            // URL endpoint untuk POST request
+            const postEndpoint = '/update-album-page';
+
+            // Lakukan request POST
+            fetch(postEndpoint, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.url);
+                    window.location.href = "/update-album/" + data.url;
+                })
+                .catch(error => {
+                    // Tangani kesalahan jika terjadi
+                    console.error('Error:', error);
+                });
+        }
     </script>
 @endsection

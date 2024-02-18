@@ -155,7 +155,7 @@ class PageController extends Controller
       'user' => $user
     ]);
   }
-  
+
   function updateAccount(Request $request)
   {
     $user = User::query()->find($request->user()->getUserId());
@@ -176,10 +176,12 @@ class PageController extends Controller
     $photos = Photos::query()
       ->select(
         'photos.*',
+        'album.album_name',
         DB::raw('(SELECT COUNT(*) FROM likes WHERE likes.photo_id = photos.id) AS likes_count'),
         DB::raw('(SELECT COUNT(*) FROM comments WHERE comments.photo_id = photos.id) AS comments_count')
       )
-      ->where('user_id', '=', $user->id)
+      ->join('album', 'album.id', '=', 'photos.album_id')
+      ->where('photos.user_id', '=', $user->id)
       ->orderByDesc('likes_count')
       ->get();
     $albums = Album::query()

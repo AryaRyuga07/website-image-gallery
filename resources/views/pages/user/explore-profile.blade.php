@@ -19,19 +19,19 @@
         <div class="flex justify-around w-64 mt-3 text-lg text-stone-400">
             <p>{{ $photos->count() }} Photos</p>
             <p>{{ $like }} Like</p>
-            <p>0 Follower</p>
+            {{-- <p>0 Follower</p> --}}
         </div>
         <div class="flex justify-evenly w-96 mt-3">
-            <button class="bg-stone-600 text-white py-3 px-5 rounded-full hover:bg-stone-800"><></button>
-            <button class="bg-stone-200 p-3 rounded-3xl hover:bg-stone-300">Message</button>
-            <button class="bg-red-600 text-white py-3 px-5 rounded-3xl hover:bg-red-800" id="follow">Follow</button>
-            <button class="bg-stone-600 text-white py-3 px-5 rounded-3xl hover:bg-stone-800 hidden" id="followed">Followed</button>
-            <button class="bg-stone-600 text-white py-3 px-5 rounded-full hover:bg-stone-800"><></button>
+            {{-- <button class="bg-stone-600 text-white py-3 px-5 rounded-full hover:bg-stone-800"><></button> --}}
+            {{-- <button class="bg-stone-200 p-3 rounded-3xl hover:bg-stone-300">Message</button> --}}
+            {{-- <button class="bg-red-600 text-white py-3 px-5 rounded-3xl hover:bg-red-800" id="follow">Follow</button> --}}
+            {{-- <button class="bg-stone-600 text-white py-3 px-5 rounded-3xl hover:bg-stone-800 hidden" id="followed">Followed</button> --}}
+            {{-- <button class="bg-stone-600 text-white py-3 px-5 rounded-full hover:bg-stone-800"><></button> --}}
         </div>
         <div class="flex justify-evenly w-64 mt-16 font-semibold">
             <a href="/ex-profile/photos/{{ $userSearch->username }}" class="button-profile">Photos</a>
             <a href="/ex-profile/album/{{ $userSearch->username }}" class="button-profile">Album</a>
-            <a href="/ex-profile/favorite/{{ $userSearch->username }}" class="button-profile">Favorite</a>
+            {{-- <a href="/ex-profile/favorite/{{ $userSearch->username }}" class="button-profile">Favorite</a> --}}
         </div>
         <div class="mb-3">
             @yield('content')

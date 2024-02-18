@@ -29,7 +29,8 @@
                                         src="{{ asset('storage/post/' . $item->file_location) }}" alt="image"
                                         class="w-full h-full rounded-xl object-cover"></div>
                             </div>
-                            <p class="text-slate-400 text-md ml-2">{{ \Carbon\Carbon::parse($item->created_at)->format('j F Y') }}</p>
+                            <p class="text-slate-400 text-md ml-2">
+                                {{ \Carbon\Carbon::parse($item->created_at)->format('j F Y') }}</p>
                         </div>
                     @endforeach
                 @endif
@@ -56,6 +57,15 @@
                     <p class="font-semibold text-xl ml-6">Pin</p>
                     <p class="ml-2 mt-1 text-md hidden" id="publishMessage">(If you want to post all, don't forget to choose
                         an album)</p>
+                    @if ($errors->any())
+                        <div class="bg-red-700 p-3 ml-5 rounded-3xl text-white">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                 </div>
                 @if (Session::has('login_error'))
                     <div
@@ -66,7 +76,8 @@
                 <div class="mr-6 flex items-center">
                     <p class="mr-6 font-semibold text-lg text-stone-400">Publish Image Now</p>
                     <button type="submit"
-                        class="bg-red-500 text-white p-3 rounded-3xl font-semibold text-center w-32 mr-6 hover:bg-red-600" onclick="this.disabled=true;this.form.submit();">Publish</button>
+                        class="bg-red-500 text-white p-3 rounded-3xl font-semibold text-center w-32 mr-6 hover:bg-red-600"
+                        onclick="this.disabled=true;this.form.submit();">Publish</button>
                 </div>
             </div>
             <div class="w-full h-auto bg-gray-200 pt-32 flex">
@@ -221,7 +232,7 @@
                 }
 
                 // Tambahkan input tersembunyi ke dalam formulir
-                let form = document.querySelector('form');
+                let form = document.getElementById('deleteDraft');
                 if (form) {
                     form.appendChild(hiddenInput);
                 } else {

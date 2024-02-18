@@ -22,9 +22,10 @@
             <p>0 Follower</p>
         </div>
         <div class="flex justify-evenly w-72 mt-3">
-            <form action="/auth/logout" method="get">
-                <button type="submit" class="bg-stone-200 py-3 px-5 rounded-3xl hover:bg-stone-300">Logout</button>
-            </form>
+            {{-- <form action="/auth/logout" method="get"> --}}
+            <button type="submit" class="bg-stone-200 py-3 px-5 rounded-3xl hover:bg-stone-300"
+                onclick="logout()">Logout</button>
+            {{-- </form> --}}
             <button data-url="/analytics"
                 class="button-page bg-stone-200 p-3 rounded-3xl hover:bg-stone-300">Analytics</button>
             <button data-url="/update-profile"
@@ -33,7 +34,7 @@
         <div class="flex justify-evenly w-64 mt-16 font-semibold">
             <a href="/profile/photos" class="button-profile">Photos</a>
             <a href="/profile/album" class="button-profile">Album</a>
-            <a href="/profile/favorite" class="button-profile">Favorite</a>
+            {{-- <a href="/profile/favorite" class="button-profile">Favorite</a> --}}
         </div>
         <div class="mb-3">
             @yield('content')
@@ -43,6 +44,12 @@
 
 @section('scripts')
     <script>
+        function logout() {
+            var confirmLogout = confirm("Are you sure?");
+            if (confirmLogout) {
+                window.location.href = "/auth/logout";
+            }
+        }
         // const anotherPages = (url) => {
         //     // Lakukan permintaan AJAX
         //     var xhr = new XMLHttpRequest();

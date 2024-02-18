@@ -24,7 +24,7 @@
                 </div>
                 <div class="xl:w-1/2 mb-4 flex flex-col items-center">
                     <button type="submit" class="px-20 xl:w-full h-12 bg-secondary rounded-3xl font-semibold hover:bg-third transition duration-300">Login</button>
-                    <a class="text-white font-medium ml-3 mt-3 underline hover:cursor-pointer">forgot password?</a>
+                    {{-- <a class="text-white font-medium ml-3 mt-3 underline hover:cursor-pointer">forgot password?</a> --}}
                 </div>
             </form>
             <a href="/auth/register" class="absolute top-4 right-4 bg-secondary w-20 h-10 pt-2 text-center rounded-3xl hover:cursor-pointer font-semibold hover:bg-third transition duration-300"><div class="">Sign Up</div></a>

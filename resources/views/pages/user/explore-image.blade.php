@@ -18,10 +18,10 @@
             </div>
             <div class="w-1/2 h-full rounded-e-3xl">
                 <div class="w-full h-1/3">
-                    <div class="h-1/3 flex justify-between items-center">
-                        <div class="m-7">ooo</div>
+                    <div class="h-1/3 mt-7 flex justify-between items-center">
+                        {{-- <div class="m-7">ooo</div>
                         <button
-                            class="w-32 h-14 p-3 bg-black text-white rounded-3xl px-7 text-lg font-semibold mr-7 hover:bg-gray-700">Save</button>
+                            class="w-32 h-14 p-3 bg-black text-white rounded-3xl px-7 text-lg font-semibold mr-7 hover:bg-gray-700">Save</button> --}}
                     </div>
                     <div class="h-1/3 flex items-center">
                         <div class="w-14 h-14 rounded-full bg-black ml-7">
@@ -195,7 +195,7 @@
 @section('scripts')
     <script>
         let images = document.querySelectorAll('.darken-brightness');
-        const bookmarking = document.getElementById('bookmark');
+        // const bookmarking = document.getElementById('bookmark');
         const bookmarkSlash = document.getElementById('bookmark-slash');
         const darken = document.getElementById('darken');
         const dot = document.getElementById('dot');
@@ -208,7 +208,7 @@
 
         images.forEach((img) => {
             img.addEventListener('mouseenter', (event) => {
-                bookmark.classList.remove('hidden');
+                // bookmark.classList.remove('hidden');
                 darken.classList.remove('hidden');
                 dot.classList.remove('hidden');
                 img.appendChild(darken);
@@ -216,7 +216,7 @@
                 img.appendChild(dot);
             });
             img.addEventListener('mouseleave', (event) => {
-                bookmark.classList.add('hidden');
+                // bookmark.classList.add('hidden');
                 darken.classList.add('hidden');
                 dot.classList.add('hidden');
                 // img.removeChild(darken);

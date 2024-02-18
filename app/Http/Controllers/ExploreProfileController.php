@@ -69,18 +69,23 @@ class ExploreProfileController extends Controller
         $user = User::query()->find($request->user()->getUserId());
         $username = $request->acc;
         $userSearch = User::query()->where('username', '=', $username)->first();
-        $album = Album::query()->where('user_id', '=', $userSearch->id)->get();
+        // $album = Album::query()->where('user_id', '=', $userSearch->id)->get();
         $like = DB::table('photos')
             ->join('likes', 'likes.photo_id', '=', 'photos.id')
             ->where('photos.user_id', $userSearch->id)
             ->count();
-        $photos = Photos::query()->where('user_id', '=', $userSearch->id)->latest();
-        $latestData = Photos::latest()->limit(7)->where('user_id', '=', $userSearch->id)->get();
+        $album = Album::query()
+            ->select(
+                'album.*',
+                DB::raw('(SELECT file_location FROM photos WHERE photos.album_id = album.id ORDER BY created_at DESC LIMIT 1) AS last_uploaded_image')
+            )
+            ->where('user_id', $userSearch->id)
+            ->get();
+            $photos = Photos::query()->where('user_id', '=', $userSearch->id)->latest();
         return view('pages.user.explore-profile-album', [
             'user' => $user,
             'userSearch' => $userSearch,
             'album' => $album,
-            'latest' => $latestData,
             'like' => $like,
             'photos' => $photos,
         ]);

@@ -76,11 +76,11 @@
                 darken.classList.remove('hidden');
                 dot.classList.remove('hidden');
                 img.appendChild(darken);
-                img.appendChild(bookmark);
+                // img.appendChild(bookmark);
                 img.appendChild(dot);
             });
             img.addEventListener('mouseleave', (event) => {
-                bookmark.classList.add('hidden');
+                // bookmark.classList.add('hidden');
                 darken.classList.add('hidden');
                 dot.classList.add('hidden');
                 // img.removeChild(darken);

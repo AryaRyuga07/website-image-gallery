@@ -66,7 +66,7 @@
         const edit = document.getElementById('edit');
         images.forEach((img) => {
             img.addEventListener('mouseenter', (event) => {
-                bookmark.classList.remove('hidden');
+                // bookmark.classList.remove('hidden');
                 darken.classList.remove('hidden');
                 dot.classList.remove('hidden');
                 del.classList.remove('hidden');
@@ -78,7 +78,7 @@
                 img.appendChild(edit);
             });
             img.addEventListener('mouseleave', (event) => {
-                bookmark.classList.add('hidden');
+                // bookmark.classList.add('hidden');
                 darken.classList.add('hidden');
                 dot.classList.add('hidden');
                 del.classList.add('hidden');

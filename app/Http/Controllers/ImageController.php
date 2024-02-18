@@ -66,7 +66,16 @@ class ImageController extends Controller
 
         $request->validate([
             'image' => 'required',
-            'title' => 'required',
+            'title' => [
+                'required',
+                // Gunakan aturan yang memastikan nama tidak duplikat
+                function ($attribute, $value, $fail) {
+                    $existingProduct = Photos::where('title', $value)->first();
+                    if ($existingProduct) {
+                        $fail('Title Duplicate');
+                    }
+                },
+            ],
             'description' => 'required',
             'album' => 'required',
         ]);
@@ -176,9 +185,11 @@ class ImageController extends Controller
             ->select('photos.*', 'user.username', 'user.file_location AS user_photo', 'user.full_name')
             ->get();
         $photoDetail = $photoUser->where('title', '=', $title)->first();
+        $album = Album::query()->where('user_id', '=', $user->id)->get();
 
         $responseData = [
             'user' => $user,
+            'album' => $album,
             'photoDetail' => $photoDetail,
         ];
 
@@ -195,14 +206,16 @@ class ImageController extends Controller
     {
         $title = $request->post('title');
         $desc = $request->post('description');
+        $album = $request->post('album');
         $image = $request->file('image');
         $oldImage = $request->file('oldImage');
 
         $photos = Photos::find($request->post('id'));
         $photos->title = $title;
+        $photos->album_id = $album;
         $photos->description = $desc;
 
-        if($image === $oldImage){
+        if ($image === $oldImage) {
             $photos->save();
             return redirect('/profile/photos');
         }
@@ -214,5 +227,54 @@ class ImageController extends Controller
 
         $photos->save();
         return redirect('/profile/photos');
+    }
+
+    public function updateAlbumPage(Request $request)
+    {
+        $idImages = $request->json()->all();
+        $album = Album::query()->where('id', '=', $idImages)->first();
+        $url = strtolower(str_replace(" ", "-", $album->album_name));
+        return response()->json(['success' => true, 'url' => $url, 'id' => $idImages]);
+    }
+
+    public function editAlbum(Request $request)
+    {
+        $url = $request->segment(2);
+        $title = ucwords(strtolower(str_replace("-", " ", $url)));
+
+        $user = User::query()->find($request->user()->getUserId());
+        $albumUser = Album::join('user', 'album.user_id', '=', 'user.id')
+            ->leftJoin('photos', 'photos.album_id', '=', 'album.id')
+            ->select('album.*', 'user.username', 'user.file_location AS user_photo', 'user.full_name', 'photos.file_location AS album_photos')
+            ->get();
+        $albumDetail = $albumUser->where('album_name', '=', $title)->first();
+        $album = Album::query()->where('user_id', '=', $user->id)->get();
+
+        $responseData = [
+            'user' => $user,
+            'album' => $album,
+            'albumDetail' => $albumDetail,
+        ];
+
+        // Check if the request expects JSON
+        if ($request->expectsJson()) {
+            return response()->json($responseData);
+        }
+
+        // Return the view along with data
+        return view('pages.user.update-album', $responseData);
+    }
+
+    public function updateAlbum(Request $request)
+    {
+        $name = $request->post('album_name');
+        $desc = $request->post('description');
+
+        $album = Album::find($request->post('id'));
+        $album->album_name = $name;
+        $album->description = $desc;
+
+        $album->save();
+        return redirect('/profile/album');
     }
 }

@@ -36,9 +36,15 @@ Route::prefix('/')->middleware('auth')->group(function() {
 	Route::get('/search', [\App\Http\Controllers\PageController::class, 'explore']);
 	Route::post('/explore-image', [\App\Http\Controllers\ExploreImageController::class, 'exploreDetail']);
 	Route::get('/explore-image/{subtitle}', [\App\Http\Controllers\ExploreImageController::class, 'exploreImage']);
+
 	Route::post('/update-photo', [\App\Http\Controllers\ImageController::class, 'updatePhoto']);
 	Route::post('/update-image', [\App\Http\Controllers\ImageController::class, 'updateImage']);
 	Route::get('/update-photo/{subtitle}', [\App\Http\Controllers\ImageController::class, 'editPhoto']);
+
+	Route::post('/update-album-page', [\App\Http\Controllers\ImageController::class, 'updateAlbumPage']);
+	Route::post('/update-album', [\App\Http\Controllers\ImageController::class, 'updateAlbum']);
+	Route::get('/update-album/{subtitle}', [\App\Http\Controllers\ImageController::class, 'editAlbum']);
+
 	Route::post('/comment', [\App\Http\Controllers\ActionController::class, 'comment']);
 	Route::post('/like', [\App\Http\Controllers\ActionController::class, 'like']);
 	Route::get('/download/{id}', [\App\Http\Controllers\ImageController::class, 'download']);
@@ -49,12 +55,12 @@ Route::prefix('/')->middleware('auth')->group(function() {
 	Route::get('/profile', [\App\Http\Controllers\PageController::class, 'profile']);
 	Route::get('/profile/photos', [\App\Http\Controllers\PageController::class, 'profilePhotos']);
 	Route::get('/profile/album', [\App\Http\Controllers\PageController::class, 'profileAlbum']);
-	Route::get('/profile/favorite', [\App\Http\Controllers\PageController::class, 'profileFavorite']);
+	// Route::get('/profile/favorite', [\App\Http\Controllers\PageController::class, 'profileFavorite']);
 	
 	Route::get('/ex-profile/{acc}', [\App\Http\Controllers\ExploreProfileController::class, 'exploreProfile']);
 	Route::get('/ex-profile/photos/{acc}', [\App\Http\Controllers\ExploreProfileController::class, 'profilePhotos']);
 	Route::get('/ex-profile/album/{acc}', [\App\Http\Controllers\ExploreProfileController::class, 'profileAlbum']);
-	Route::get('/ex-profile/favorite/{acc}', [\App\Http\Controllers\ExploreProfileController::class, 'profileFavorite']);
+	// Route::get('/ex-profile/favorite/{acc}', [\App\Http\Controllers\ExploreProfileController::class, 'profileFavorite']);
 	
 	Route::get('/update-profile', [\App\Http\Controllers\PageController::class, 'updateProfile']);
 	Route::get('/update-account', [\App\Http\Controllers\PageController::class, 'updateAccount']);
@@ -72,5 +78,5 @@ Route::prefix('/')->middleware('auth')->group(function() {
 	Route::post('/post-image', [\App\Http\Controllers\ImageController::class, 'postImage']);
 	
 	Route::get('/creation', [\App\Http\Controllers\PageController::class, 'creation']);
-	Route::get('test', [\App\Http\Controllers\PageController::class, 'test']);
+	// Route::get('test', [\App\Http\Controllers\PageController::class, 'test']);
 });

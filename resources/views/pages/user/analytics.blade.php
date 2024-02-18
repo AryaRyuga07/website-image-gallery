@@ -45,14 +45,14 @@
                         <p class="w-20 ml-2 text-xl font-bold">Image</p>
                         <p class="w-52 ml-5 text-xl font-bold">Title</p>
                         <p class="w-96 ml-8 text-xl font-bold">Description</p>
-                        <p class="w-20 text-xl font-bold">Album</p>
+                        <p class="w-40 text-xl font-bold">Album</p>
                     </div>
                     @foreach ($photos as $item)
                         <div class="w-auto h-24 mx-3 my-3 flex items-center hover:bg-slate-200 cursor-pointer rounded-3xl draft-image" data-like="{{ $item->likes_count }}" data-comment="{{ $item->comments_count }}">
                             <img src="{{ asset('storage/post/' . $item->file_location) }}" class="w-20 h-20 object-cover rounded-3xl">  
                             <p class="truncate w-52 text-xl ml-5">{{ $item->title }}</p>
                             <p class="truncate w-96 text-xl ml-8">{{ $item->description }}</p>
-                            <p class="truncate w-20 atext-xl ml-5">New</p>
+                            <p class="truncate w-40 atext-xl ml-5">{{ $item->album_name }}</p>
                         </div>
                     @endforeach
                 </div>

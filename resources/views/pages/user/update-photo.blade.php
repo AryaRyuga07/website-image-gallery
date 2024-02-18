@@ -25,7 +25,16 @@
                     <div class="w-11/12 h-32 mt-16">
                         <label for="description" class="text-lg font-semibold ml-2">Description</label>
                         <textarea name="description" id="description" placeholder="Description"
-                            class="resize-none w-full h-full bg-none border-2 border-gray-300 rounded-3xl p-4 mt-2">{{ $photoDetail->description }}</textarea>
+                        class="resize-none w-full h-full bg-none border-2 border-gray-300 rounded-3xl p-4 mt-2">{{ $photoDetail->description }}</textarea>
+                    </div>
+                    <div class="w-11/12 h-14 mt-16">
+                        <label for="album" class="text-lg font-semibold ml-2">Album</label>
+                        <select name="album" id="album" class="w-full h-full bg-none border-2 border-gray-300 rounded-3xl p-4 mt-2">
+                            <option>--Select Album--</option>
+                            @foreach ($album as $item)
+                            <option value="{{ $item->id }}" {{ ($photoDetail->album_id === $item->id) ? 'selected' : '' }}>{{ $item->album_name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="flex w-11/12 h-32 mt-16">
                         <div class="">
