@@ -71,6 +71,8 @@ class managementProfileController extends Controller
         $user = User::where('id', $userId)->first();
         Storage::delete('public/image/' . $user->file_location);
         $user->delete();
+        $request->session()->invalidate();
+		$request->session()->regenerateToken();
         $request->session()->flash('login_error', 'Delete Data Success');
         return response()->view('pages.auth.login', [], 401);
     }

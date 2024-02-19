@@ -34,11 +34,11 @@
                         <option value="photos">Photos</option>
                         <option value="album">Album</option>
                     </select>
-                    <select name="mode" id="mode" class="w-72 h-12 bg-slate-300 rounded-3xl p-3 mb-6 border-none">
+                    {{-- <select name="mode" id="mode" class="w-72 h-12 bg-slate-300 rounded-3xl p-3 mb-6 border-none">
                         <option>--Urutkan menurut--</option>
                         <option value="like">Like</option>
                         <option value="comment">Comment</option>
-                    </select>
+                    </select> --}}
                 </div>
                 <div class="w-full h-[40rem] rounded-3xl overflow-auto overflow-x-hidden" id="photos_section">
                     <div class="w-full h-20 mx-3 my-3 flex items-center">

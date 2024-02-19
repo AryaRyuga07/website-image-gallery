@@ -210,6 +210,19 @@ class ImageController extends Controller
         $image = $request->file('image');
         $oldImage = $request->file('oldImage');
 
+        $request->validate([
+            'title' => [
+                'required',
+                // Gunakan aturan yang memastikan nama tidak duplikat
+                function ($attribute, $value, $fail) {
+                    $existingProduct = Photos::where('title', $value)->first();
+                    if ($existingProduct) {
+                        $fail('Title Duplicate');
+                    }
+                },
+            ],
+        ]);
+
         $photos = Photos::find($request->post('id'));
         $photos->title = $title;
         $photos->album_id = $album;

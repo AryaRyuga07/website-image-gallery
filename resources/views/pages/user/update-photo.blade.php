@@ -10,7 +10,8 @@
                     id="thumbnail">
                     <img src="{{ asset('storage/post/' . $photoDetail->file_location) }}" alt=""
                         class="w-full h-full object-cover rounded-3xl" id="photo">
-                    <input type="file" name="image" id="inputImage" class="hidden" value="{{ $photoDetail->file_location }}">
+                    <input type="file" name="image" id="inputImage" class="hidden"
+                        value="{{ $photoDetail->file_location }}">
                     <input type="text" name="oldImage" class="hidden" value="{{ $photoDetail->file_location }}">
                     <input type="hidden" name="id" value="{{ $photoDetail->id }}">
                 </div>
@@ -25,21 +26,28 @@
                     <div class="w-11/12 h-32 mt-16">
                         <label for="description" class="text-lg font-semibold ml-2">Description</label>
                         <textarea name="description" id="description" placeholder="Description"
-                        class="resize-none w-full h-full bg-none border-2 border-gray-300 rounded-3xl p-4 mt-2">{{ $photoDetail->description }}</textarea>
+                            class="resize-none w-full h-full bg-none border-2 border-gray-300 rounded-3xl p-4 mt-2">{{ $photoDetail->description }}</textarea>
                     </div>
                     <div class="w-11/12 h-14 mt-16">
                         <label for="album" class="text-lg font-semibold ml-2">Album</label>
-                        <select name="album" id="album" class="w-full h-full bg-none border-2 border-gray-300 rounded-3xl p-4 mt-2">
+                        <select name="album" id="album"
+                            class="w-full h-full bg-none border-2 border-gray-300 rounded-3xl p-4 mt-2">
                             <option>--Select Album--</option>
                             @foreach ($album as $item)
-                            <option value="{{ $item->id }}" {{ ($photoDetail->album_id === $item->id) ? 'selected' : '' }}>{{ $item->album_name }}</option>
+                                <option value="{{ $item->id }}"
+                                    {{ $photoDetail->album_id === $item->id ? 'selected' : '' }}>{{ $item->album_name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
+                    <div class="w-11/12 h-14 mt-16">
+                        @foreach ($errors->all() as $error)
+                            <p class="p-5 bg-red-500 text-white rounded-3xl font-bold italic">{{ $error }}</p>
+                        @endforeach
+                    </div>
                     <div class="flex w-11/12 h-32 mt-16">
                         <div class="">
-                            <button type="submit"
-                                class="bg-gray-400 text-black p-3 rounded-3xl font-semibold text-center w-32 mr-6 hover:bg-gray-300">Cancel</button>
+                            <p class="bg-gray-400 text-black p-3 rounded-3xl font-semibold text-center w-32 mr-6 hover:bg-gray-300 button-page cursor-pointer" data-url="/profile">Cancel</p>
                         </div>
                         <div class="">
                             <button type="submit"
@@ -64,7 +72,7 @@
             darken.classList.remove('hidden');
             thumbnail.appendChild(darken);
         });
-        
+
         thumbnail.addEventListener('mouseleave', () => {
             darken.classList.add('hidden');
         });
