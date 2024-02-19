@@ -3,13 +3,20 @@
 namespace App\Http\Middleware;
 
 use App\Providers\RouteServiceProvider;
+use App\Services\Auth\AuthService;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\HttpFoundation\Response;
 
 class RedirectIfAuthenticated
 {
+    private AuthService $service;
+
+	public function __construct(){
+		$this->service = new AuthService();
+	}
     /**
      * Handle an incoming request.
      *
@@ -17,13 +24,9 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
-        $guards = empty($guards) ? [null] : $guards;
-
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
-            }
-        }
+        if($this->service->get($request) !== null) {
+			return Redirect::back();
+		}
 
         return $next($request);
     }
