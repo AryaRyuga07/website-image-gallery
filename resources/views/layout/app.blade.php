@@ -8,26 +8,19 @@
     <title>{{ $title ?? 'RyeVision Gallery' }}</title>
     <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
-    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-file-encode.min.js') }}"></script>
-    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-file-validate-type.min.js') }}"></script>
-    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-crop.min.js') }}"></script>
-    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-exif-orientation.min.js') }}"></script>
-    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-preview.min.js') }}"></script>
-    {{-- <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-preview.min.css') }}"></script> --}}
-    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-resize.min.js') }}"></script>
-    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-transform.min.js') }}"></script>
-    <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-validate-size.min.js') }}"></script>
-    <script src="{{ asset('assets/filepond/filepond.min.js') }}"></script>
-    {{-- <script src="{{ asset('assets/filepond/filepond.min.css') }}"></script> --}}
+    <script src="{{ asset('assets/css/tailwind.css') }}"></script>
+    <!-- <script src="{{ asset('assets/filepond/plugins/filepond-plugin-file-encode.min.js') }}"></script> -->
+    <!-- <script src="{{ asset('assets/filepond/plugins/filepond-plugin-file-validate-type.min.js') }}"></script> -->
+    <!-- <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-crop.min.js') }}"></script> -->
+    <!-- <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-exif-orientation.min.js') }}"></script> -->
+    <!-- <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-preview.min.js') }}"></script> -->
+    <!-- {{-- <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-preview.min.css') }}"></script> --}} -->
+    <!-- <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-resize.min.js') }}"></script> -->
+    <!-- <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-transform.min.js') }}"></script> -->
+    <!-- <script src="{{ asset('assets/filepond/plugins/filepond-plugin-image-validate-size.min.js') }}"></script> -->
+    <!-- <script src="{{ asset('assets/filepond/filepond.min.js') }}"></script> -->
+    <!-- <script src="{{ asset('assets/filepond/filepond.min.css') }}"></script> -->
     @yield('head')
-    @if (env('VITE_ENABLED', 'true') === 'true')
-        @vite('resources/css/app.css')
-    @else
-        <script src="{{ asset('assets/css/tailwind.css') }}"></script>
-    @endif
-    @if (env('VITE_ENABLED', 'true') === 'true')
-        @vite('resources/css/app.css')
-    @else
         <script>
             tailwind.config = {
                 theme: {
@@ -42,7 +35,6 @@
                 },
             }
         </script>
-    @endif
     <style>
         * {
             margin: 0;

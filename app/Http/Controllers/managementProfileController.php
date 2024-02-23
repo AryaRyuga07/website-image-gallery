@@ -18,6 +18,7 @@ class managementProfileController extends Controller
         $lastname = $req->post('lastname');
         $fullname = $firstname . '-' . $lastname;
         $address = $req->post('address');
+        $email = $req->post('email');
 
         if ($fullname === null) {
             $fullname = null;
@@ -37,10 +38,10 @@ class managementProfileController extends Controller
             // Simpan gambar baru ke storage
             $image->storeAs('public/image', $imageName);
             // Perbarui informasi pengguna dengan gambar baru
-            User::where('id', $userId)->update(['file_location' => $imageName, 'full_name' => $fullname, 'address' => $address]);
+            User::where('id', $userId)->update(['file_location' => $imageName, 'full_name' => $fullname, 'address' => $address, 'email' => $email]);
         } else {
             // Jika gambar tidak diperbarui, hanya perbarui informasi pengguna
-            User::where('id', $userId)->update(['full_name' => $fullname, 'address' => $address]);
+            User::where('id', $userId)->update(['full_name' => $fullname, 'address' => $address, 'email' => $email]);
         }
 
         return redirect('/profile');

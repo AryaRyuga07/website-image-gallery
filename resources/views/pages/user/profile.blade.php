@@ -19,7 +19,7 @@
         <div class="flex justify-around w-64 mt-3 text-lg text-stone-400">
             <p>{{ $photos->count() }} Photos</p>
             <p>{{ $like }} Like</p>
-            <p>0 Follower</p>
+            {{-- <p>0 Follower</p> --}}
         </div>
         <div class="flex justify-evenly w-72 mt-3">
             {{-- <form action="/auth/logout" method="get"> --}}

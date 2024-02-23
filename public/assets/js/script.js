@@ -36,7 +36,7 @@ darkEl.classList.add('w-full');
 darkEl.classList.add('h-full');
 darkEl.classList.add('z-40');
 darkEl.classList.add('bg-black');
-darkEl.classList.add('absolute');
+darkEl.classList.add('fixed');
 darkEl.classList.add('top-0');
 darkEl.classList.add('opacity-80');
 

@@ -39,6 +39,12 @@
                     <textarea name="address" id="address" placeholder="address"
                         class="resize-none w-full h-full bg-none border-2 border-gray-300 rounded-3xl p-4 mt-2" autocomplete="off">{{ $user->address != null ? $user->address : '' }}</textarea>
                 </div>
+                <div class="w-full h-14 mt-16 mb-20">
+                    <label for="email" class="text-lg font-semibold ml-2">Email</label>
+                    <input type="email" id="email" name="email" placeholder="email" autocomplete="off"
+                            class="w-full h-full bg-none border-2 border-gray-300 rounded-3xl p-4 mt-2" autocomplete="off"
+                            value="{{ $user->email != null ? $user->email ?? null : '' }}">
+                </div>
                 <div class="flex">
                     <div class="mb-4 flex flex-col mr-6">
                         <button

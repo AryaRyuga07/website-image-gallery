@@ -7,6 +7,7 @@ use App\Models\Draft;
 use App\Models\Photos;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
@@ -259,14 +260,22 @@ class ImageController extends Controller
         $albumUser = Album::join('user', 'album.user_id', '=', 'user.id')
             ->leftJoin('photos', 'photos.album_id', '=', 'album.id')
             ->select('album.*', 'user.username', 'user.file_location AS user_photo', 'user.full_name', 'photos.file_location AS album_photos')
+            ->orderByDesc('photos.id')
             ->get();
         $albumDetail = $albumUser->where('album_name', '=', $title)->first();
         $album = Album::query()->where('user_id', '=', $user->id)->get();
+        $result = Photos::select('photos.id', 'photos.title', 'photos.file_location', DB::raw('COALESCE(likes_count, 0) as likeTotal'), DB::raw('COALESCE(comment_count, 0) as commentTotal'))
+        ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as likes_count FROM likes GROUP BY photo_id) as likes'), 'likes.photo_id', '=', 'photos.id')
+        ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as comment_count FROM comments GROUP BY photo_id) as comments'), 'comments.photo_id', '=', 'photos.id')
+        ->orderByDesc('photos.id')
+        ->where('album_id', '=', $albumDetail->id)
+        ->get();
 
         $responseData = [
             'user' => $user,
             'album' => $album,
             'albumDetail' => $albumDetail,
+            'result' => $result,
         ];
 
         // Check if the request expects JSON

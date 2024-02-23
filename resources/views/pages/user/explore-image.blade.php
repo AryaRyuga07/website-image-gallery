@@ -24,8 +24,8 @@
                             class="w-32 h-14 p-3 bg-black text-white rounded-3xl px-7 text-lg font-semibold mr-7 hover:bg-gray-700">Save</button> --}}
                     </div>
                     <div class="h-1/3 flex items-center">
-                        <div class="w-14 h-14 rounded-full bg-black ml-7">
-                            <img src="{{ asset('storage/image/' . $photoDetail->user_photo) }}" class="rounded-full">
+                        <div class="w-14 h-14 rounded-full bg-black ml-7 mt-1">
+                            <img src="{{ asset('storage/image/' . $photoDetail->user_photo) }}" class="w-full h-full rounded-full">
                         </div>
                         <div class="ml-4">
                             <p class="text-xl font-bold flex items-center">
@@ -43,6 +43,7 @@
                     <div class="h-1/3 flex items-center mt-4">
                         <div class="ml-8">
                             <p class="text-2xl font-bold mb-2 mt-4">{{ $photoDetail->title }}</p>
+                            <p class="text-sm text-slate-500">{{ \Carbon\Carbon::parse($photoDetail->created_at)->format('j F Y') }}</p>
                             <p class="text-md h-20 overflow-auto">{{ $photoDetail->description }}</p>
                         </div>
                     </div>
@@ -60,6 +61,7 @@
                                     <div class="w-3/4">
                                         <p class="text-md font-bold">{{ strtr($item->full_name, ['-' => ' ']) }}</p>
                                         <p class="text-sm">{{ $item->comment }}
+                                        <p class="text-xs text-slate-500">{{ \Carbon\Carbon::parse($item->created_at)->format('j F Y') }}
                                         </p>
                                     </div>
                                 </div>

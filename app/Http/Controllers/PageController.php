@@ -101,12 +101,14 @@ class PageController extends Controller
     $like = Like::all();
     $likedUser = $like->where('user_id', '=', $user->id);
     $comment = Comment::all();
+    $userAll = User::all();
     return view('pages.user.home', [
       'user' => $user,
       'photos' => $photos,
       'like' => $like,
       'comment' => $comment,
       'likedUser' => $likedUser,
+      'userAll' => $userAll,
     ]);
   }
   function explore(Request $request)
@@ -145,6 +147,7 @@ class PageController extends Controller
       'user' => $user,
       'draft' => $draft,
       'album' => $album,
+      'albumDetail' => null,
     ]);
   }
 
@@ -207,5 +210,89 @@ class PageController extends Controller
     return view('pages.user.test', [
       'user' => $user
     ]);
+  }
+
+  public function exploreAlbumPage(Request $request)
+  {
+    $idImages = $request->json()->all();
+    $album = Album::query()->where('id', '=', $idImages)->first();
+    $user = User::query()->where('id', '=', $album->user_id)->first();
+    $url = strtolower(str_replace(" ", "-", $album->album_name));
+    return response()->json(['success' => true, 'url' => $url, 'id' => $idImages, 'user' => $user]);
+  }
+
+  public function exploreAlbum(Request $request)
+  {
+    $url = $request->segment(2);
+    $username = $request->segment(3);
+    $title = ucwords(strtolower(str_replace("-", " ", $url)));
+
+    $userDetail = User::query()->where('username', '=', $username)->first();
+    $user = User::query()->find($request->user()->getUserId());
+    $albumUser = Album::join('user', 'album.user_id', '=', 'user.id')
+      ->leftJoin('photos', 'photos.album_id', '=', 'album.id')
+      ->select('album.*', 'user.username', 'user.file_location AS user_photo', 'user.full_name', 'photos.file_location AS album_photos')
+      ->orderByDesc('photos.id')
+      ->get();
+    $albumDetail = $albumUser->where('album_name', '=', $title)->where('user_id', '=', $userDetail->id)->first();
+    $album = Album::query()->where('user_id', '=', $userDetail->id)->get();
+
+    $result = Photos::select('photos.id', 'photos.title', 'photos.file_location', DB::raw('COALESCE(likes_count, 0) as likeTotal'), DB::raw('COALESCE(comment_count, 0) as commentTotal'))
+      ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as likes_count FROM likes GROUP BY photo_id) as likes'), 'likes.photo_id', '=', 'photos.id')
+      ->leftJoin(DB::raw('(SELECT photo_id, COUNT(id) as comment_count FROM comments GROUP BY photo_id) as comments'), 'comments.photo_id', '=', 'photos.id')
+      ->orderByDesc('photos.id')
+      ->where('album_id', '=', $albumDetail->id)
+      ->get();
+
+    $responseData = [
+      'user' => $user,
+      'userDetail' => $userDetail,
+      'album' => $album,
+      'albumDetail' => $albumDetail,
+      'result' => $result,
+    ];
+
+    // Check if the request expects JSON
+    if ($request->expectsJson()) {
+      return response()->json($responseData);
+    }
+
+    // Return the view along with data
+    return view('pages.user.album-image', $responseData);
+  }
+
+  function addImageAlbum(Request $request)
+  {
+    $idImages = $request->json()->all();
+    $album = Album::query()->where('id', '=', $idImages)->first();
+    $user = User::query()->where('id', '=', $album->user_id)->first();
+    $url = strtolower(str_replace(" ", "-", $album->album_name));
+    return response()->json(['success' => true, 'url' => $url, 'id' => $idImages, 'user' => $user]);
+  }
+
+  function creationWithAlbum(Request $request)
+  {
+    $url = $request->segment(2);
+    $title = ucwords(strtolower(str_replace("-", " ", $url)));
+
+    $user = User::query()->find($request->user()->getUserId());
+    $draft = Draft::query()->where('user_id', '=', $user->id)->get();
+    $album = Album::query()->where('user_id', '=', $user->id)->get();
+    $albumDetail = $album->where('album_name', '=', $title)->first();
+
+    $responseData = [
+      'user' => $user,
+      'album' => $album,
+      'draft' => $draft,
+      'albumDetail' => $albumDetail,
+    ];
+
+    // Check if the request expects JSON
+    if ($request->expectsJson()) {
+      return response()->json($responseData);
+    }
+
+    // Return the view along with data
+    return view('pages.user.creation', $responseData);
   }
 }

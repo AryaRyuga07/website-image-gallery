@@ -79,5 +79,11 @@ Route::prefix('/')->middleware('auth')->group(function () {
 	Route::post('/post-image', [\App\Http\Controllers\ImageController::class, 'postImage']);
 
 	Route::get('/creation', [\App\Http\Controllers\PageController::class, 'creation']);
-	// Route::get('test', [\App\Http\Controllers\PageController::class, 'test']);
+	Route::post('/add-image-album', [\App\Http\Controllers\PageController::class, 'addImageAlbum']);
+	Route::get('/creation/{album}', [\App\Http\Controllers\PageController::class, 'creationWithAlbum']);
+	Route::get('test', [\App\Http\Controllers\PageController::class, 'test']);
+
+	Route::post('/explore-album-page', [\App\Http\Controllers\PageController::class, 'exploreAlbumPage']);
+	// Route::post('/explore-album', [\App\Http\Controllers\PageController::class, 'exploreAlbum']);
+	Route::get('/explore-album/{subtitle}/{acc}', [\App\Http\Controllers\PageController::class, 'exploreAlbum']);
 });

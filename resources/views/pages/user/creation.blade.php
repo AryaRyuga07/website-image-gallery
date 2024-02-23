@@ -5,7 +5,7 @@
         <div class="bg-white w-1/4 h-full border border-slate-300 flex flex-col justify-between">
             <div class="w-full h-36 border-b pb-5">
                 <p class="font-semibold text-xl ml-6 mt-6">Draft ({{ $draft->count() }})</p>
-                <input type="file" name="files[]" id="fileInput" class="hidden" multiple />
+                <input type="file" name="files[]" id="fileInput" accept="jpg, png, jpeg" class="hidden" multiple />
                 <button class=" bg-stone-200 p-3 rounded-3xl font-semibold text-center mt-6 ml-6 w-[20vw] hover:bg-stone-300"
                     id="newDraft">Add New Draft</button>
             </div>
@@ -100,12 +100,19 @@
                     </div>
                     <div class="w-11/12 h-14 mt-16">
                         <label for="album" class="text-lg font-semibold ml-2">Album</label>
-                        <select name="album" id="album"
-                            class="w-full h-full bg-none border-2 border-gray-300 rounded-3xl p-4 mt-2">
-                            @foreach ($album as $item)
-                                <option value="{{ $item->id }}">{{ $item->album_name }}</option>
-                            @endforeach
-                        </select>
+                        @if ($albumDetail === null)
+                            <select name="album" id="album"
+                                class="w-full h-full bg-none border-2 border-gray-300 rounded-3xl p-4 mt-2">
+                                @foreach ($album as $item)
+                                    <option value="{{ $item->id }}">{{ $item->album_name }}</option>
+                                @endforeach
+                            </select>
+                        @else
+                            <input type="text" id="album_name" placeholder="album_name" autocomplete="off"
+                                class="w-full h-full bg-none border-2 border-gray-300 rounded-3xl p-4 mt-2" disabled
+                                value="Album: {{ $albumDetail->album_name }}" >
+                                <input type="hidden" name="album" value="{{ $albumDetail->id }}">
+                        @endif
                     </div>
                 </div>
             </div>

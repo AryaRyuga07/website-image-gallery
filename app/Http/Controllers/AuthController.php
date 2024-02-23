@@ -62,7 +62,7 @@ class AuthController extends Controller
 		if ($user === null) {
             $service = new AuthService();
             $service->createAccount($username, $password, $email);
-			$request->session()->flash('login_error', 'Account Created!!!');
+			$request->session()->flash('register_success', 'Account Created!!!');
 			return response()->view('pages.auth.login', [], 401);
 		} else {
 			$request->session()->flash('register_error', 'Email/Username Already Used');

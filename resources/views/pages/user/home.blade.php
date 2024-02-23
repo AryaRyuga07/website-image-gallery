@@ -6,7 +6,27 @@
 @endphp
 
 @section('container')
-    <div class="w-screen h-auto flex flex-col items-center pt-20 pb-8 mt-10">
+<div class="w-[27vw] h-auto p-6 shadow-2xl fixed left-10 rounded-3xl mt-20 hidden xl:flex xl:flex-col pt-5 pl-5">
+    <h1 class="text-2xl font-bold mb-10">User All</h1>
+    @foreach ($userAll as $user)
+    @php
+        $name = strtr($user->full_name, ['-' => ' ']);
+    @endphp
+    <div class="flex">
+        <div class="w-14 h-14 bg-black rounded-full mb-5 cursor-pointer button-page" data-url="/ex-profile/{{ strtolower($user->username) }}"><img src="{{ asset(($user->file_location !== null) ? 'storage/image/' . $user->file_location : 'assets/image/def.png') }}" alt="" class="w-full h-full rounded-full object-cover"></div>
+        <div class="ml-5">
+            <p class="text-lg font-semibold">{{ ($name === "") ? 'Full Name Not Set' : $name }}</p>
+            <p class="text-md">{{ "@" . $user->username }}</p>
+        </div>
+    </div>
+    @endforeach
+</div>
+<div class="w-screen h-auto flex flex-col items-center pt-20 pb-8 mt-8">
+    <div class="w-[50vw] h-[70vh] fixed mt-10 mx-auto hidden rounded-2xl shadow-2xl" id="slot">
+        <img src="{{ asset('assets/image/kuduga.jpg') }}" class="w-full h-full object-cover rounded-t-2xl">
+        <p class="text-center w-full text-3xl text-black bg-white font-bold p-3 cursor-pointer absolute top-0 rounded-t-2xl">Bingung Simpan Uang Aman Dimana? <br> <span class="text-blue-500 underline">KUDUGA</span> <br> Dijamin Aman dan Terpercaya</p>
+        <p class="text-center text-3xl text-white bg-blue-500 rounded-b-2xl font-bold p-3 cursor-pointer hover:bg-blue-700" id="close">Close</p>
+    </div>
         @foreach ($arrayRandom as $item)
             @php
                 $name = strtr($item['full_name'], ['-' => ' ']);
@@ -14,11 +34,11 @@
                 $first = 'block';
             @endphp
             {{-- @if ($item->description !== null) --}}
-            <div class="bg-slate-200 h-[60vh] w-[80vw] xl:h-auto xl:w-[50vw] rounded-3xl mb-10">
+            <div class="bg-slate-200 h-auto w-[80vw] xl:h-auto xl:w-[30vw] rounded-3xl mb-10">
                 <div class="w-full h-24 flex justify-between items-center">
                     <div class="w-72 h-full flex items-center xl:ml-4 mt-4">
-                        <div class="w-20 h-20 rounded-full mx-5 cursor-pointer button-page" data-url="/ex-profile/{{ strtolower($item['username']) }}"><img
-                                src="{{ asset('storage/image/' . $item['profile']) }}" alt="yopi" class="rounded-full object-cover">
+                        <div class="w-20 h-20 rounded-full mx-3 cursor-pointer button-page" data-url="/ex-profile/{{ strtolower($item['username']) }}"><img
+                                src="{{ asset('storage/image/' . $item['profile']) }}" alt="yopi" class="w-16 h-16 rounded-full object-cover mt-3">
                         </div>
                         <div class="flex flex-col">
                             <p class="text-md xl:text-xl font-semibold cursor-pointer button-page" data-url="/ex-profile/{{ strtolower($item['username']) }}">{{ $name }}</p>
@@ -38,9 +58,9 @@
                 <div class="w-11/12 mx-auto mt-2">
                     <p class="text-md font-medium text-justify mb-4 mt-4 capitalize">{{ $item['description'] }}</p>
                 </div>
-                <div class="w-11/12 mx-auto h-[60%] bg-blue-200 flex border-y border-gray-400 rounded-3xl">
+                <div class="w-11/12 mx-auto h-[25%] bg-blue-200 flex border-y border-gray-400 rounded-3xl">
                     <img src="{{ asset('storage/post/' . $item['file_location']) }}" alt="post"
-                        class="w-full h-full rounded-3xl">
+                        class="w-full h-1/4 rounded-3xl">
                 </div>
                 <div class="w-11/12 mx-auto h-32">
                     <div class="w-full h-8 flex flex-col justify-center">
@@ -106,6 +126,20 @@
         const likedElements = document.querySelectorAll('.liked');
         const totalLikedElements = document.querySelectorAll('.likeTotal');
         const share = document.querySelectorAll('.share');
+        const slot = document.getElementById('slot');
+        const close = document.getElementById('close');
+
+        close.addEventListener('click', () => {
+            slot.classList.add('hidden');
+        })
+
+        // setTimeout(() => {
+        //     slot.classList.remove('hidden');
+        // }, 2000);
+        
+        // setTimeout(() => {
+        //     slot.classList.add('hidden');
+        // }, 6000);
 
         likeButtons.forEach((like, index) => {
             let intTotalLiked = parseInt(totalLikedElements[index].textContent);
@@ -117,6 +151,7 @@
                 likedElements[index].classList.remove('hidden');
                 intTotalLiked += 1;
                 totalLikedElements[index].textContent = intTotalLiked + '';
+                slot.classList.add('hidden');
             });
 
             likedElements[index].addEventListener('click', function() {

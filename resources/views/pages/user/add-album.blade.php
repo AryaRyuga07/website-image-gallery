@@ -26,8 +26,8 @@
                     </div>
                     <div class="flex w-11/12 h-32 mt-16">
                         <div class="">
-                            <button type="submit"
-                                class="bg-gray-400 text-black p-3 rounded-3xl font-semibold text-center w-32 mr-6 hover:bg-gray-300">Cancel</button>
+                            <p data-url="/profile/album"
+                                class="bg-gray-400 text-black p-3 rounded-3xl font-semibold text-center w-32 mr-6 hover:bg-gray-300 cursor-pointer button-page">Cancel</p>
                         </div>
                         <div class="">
                             <button type="submit"
