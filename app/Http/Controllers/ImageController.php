@@ -43,6 +43,11 @@ class ImageController extends Controller
         $album = $request->post('album');
         $user = User::query()->find($request->user()->getUserId());
         $fullname = str_replace('-', ' ', $user->full_name);
+        if($fullname != ""){
+            $userSlug = $fullname;
+        } else {
+            $userSlug = ucwords(str_replace('-', ' ', $user->username)); 
+        }
         $photos = Photos::query()->latest()->first();
         if ($photos === null) {
             $num = 0;
@@ -54,7 +59,7 @@ class ImageController extends Controller
                 $data = Draft::where('id', $selectedItem[$i])->first();
                 if ($data) {
                     $photo = new Photos();
-                    $photo->title = "Gambar " . $num++ . " " . $fullname;
+                    $photo->title = "Gambar " . $num++ . " " . $userSlug;
                     $photo->file_location = $data->file_location;
                     $photo->album_id = $album;
                     $photo->user_id = $user->id;
